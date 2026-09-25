@@ -17,6 +17,18 @@ gcc -Wall -g lecture01-intro/hello_world/hello.c -o hello
 
 Các thư mục có `Makefile` riêng là chương trình gồm nhiều file (ví dụ `lecture01-intro/header_files`); chạy `make run` trong thư mục đó.
 
+## Thực hành
+
+Tài liệu cho 4 buổi thực hành (và bài chuẩn bị Lab 0) nằm trong [`labs/`](labs):
+
+- [Lab 0 — Cài đặt môi trường, Linux, SSH, Git/GitHub](labs/lab00-setup.md)
+- [Lab 1 — Nền tảng C](labs/lab01-basics.md)
+- [Lab 2 — Mảng, chuỗi và debug](labs/lab02-arrays-strings-debug.md)
+- [Lab 3 — Con trỏ và bộ nhớ động](labs/lab03-pointers-memory.md)
+- [Lab 4 — Struct, con trỏ hàm và chương trình nhiều file](labs/lab04-structs-modules.md)
+
+Repo có sẵn cấu hình `.devcontainer/` để mở bằng GitHub Codespaces (đã cài `gcc`, `gdb`, `make`, `valgrind`).
+
 ## Nội dung
 
 ### [Lecture 1: Giới thiệu môn học](lecture01-intro)

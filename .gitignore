@@ -69,5 +69,16 @@ lecture08-function-pointers/strings/my_string
 lecture08-function-pointers/strings/string_basics
 lecture08-function-pointers/strings/string_functions
 
+# Bài thực hành
+labs/lab01/lab01
+labs/lab01/temperature
+labs/lab01/calculator
+labs/lab02/lab02
+labs/lab02/buggy
+labs/lab03/lab03
+labs/lab03/leaky
+labs/lab04/test_student
+labs/lab04/app
+
 # Cấu hình VS Code cá nhân
 .vscode/

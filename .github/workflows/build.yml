@@ -11,3 +11,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build all examples
         run: make CFLAGS="-Wall -Wextra -Werror -g"
+      - name: Build lab starter code
+        run: |
+          gcc -Wall -Wextra -Werror labs/lab01/lab01.c -o /tmp/lab01
+          gcc -Wall -Wextra -Werror labs/lab02/lab02.c -o /tmp/lab02
+          gcc -Wall -Wextra -Werror labs/lab03/lab03.c -o /tmp/lab03
+          gcc -Wall labs/lab02/buggy.c -o /tmp/buggy
+          gcc -Wall labs/lab03/leaky.c -o /tmp/leaky
+          make -C labs/lab04 test_student CFLAGS="-Wall -Wextra -Werror -g"
