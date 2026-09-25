@@ -1,14 +1,14 @@
-// Lab 3 — Con trỏ và bộ nhớ động
-// Biên dịch và chạy:  gcc -Wall -Wextra -g lab03.c -o lab03 && ./lab03
-// Kiểm tra bộ nhớ:    valgrind --leak-check=full ./lab03
-// Nhiệm vụ: cài đặt các hàm có đánh dấu TODO cho đến khi tất cả đều PASS
-//           và valgrind báo 0 errors, không rò rỉ.
+// Lab 3 - Pointers and Dynamic Memory
+// Compile and run:  gcc -Wall -Wextra -g lab03.c -o lab03 && ./lab03
+// Check memory:     valgrind --leak-check=full ./lab03
+// Task: implement the functions marked TODO until all tests PASS
+//       and valgrind reports 0 errors and no leaks.
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h> // chỉ dùng trong main để kiểm tra
+#include <string.h> // used only in main for testing
 
 // ---------------------------------------------------------------------------
-// Khung kiểm tra đơn giản (không cần sửa)
+// Simple test harness (no need to modify)
 static int passed = 0, total = 0;
 #define CHECK(expr)                                 \
     do {                                            \
@@ -31,34 +31,34 @@ static int same_array(const int *a, const int *b, int n) {
 }
 // ---------------------------------------------------------------------------
 
-// 3.1 Hoán đổi giá trị hai biến
+// 3.1 Swap the values of two variables
 void swap(int *a, int *b) {
     // TODO
     (void)a; (void)b;
 }
 
-// 3.2 Tìm min và max của mảng (n >= 1), trả về qua con trỏ
+// 3.2 Find the min and max of the array (n >= 1), returned through pointers
 void min_max(const int *a, int n, int *min, int *max) {
     // TODO
     (void)a; (void)n; (void)min; (void)max;
 }
 
-// 3.3 Tổng mảng. KHÔNG dùng a[i]; chỉ dùng *p và p++ (hoặc *(a + i))
+// 3.3 Sum of the array. Do NOT use a[i]; use only *p and p++ (or *(a + i))
 int sum_pointer(const int *a, int n) {
     // TODO
     (void)a; (void)n;
     return -1;
 }
 
-// 3.4 Trả về bản sao của mảng, cấp phát trên heap (người gọi sẽ free)
+// 3.4 Return a copy of the array, allocated on the heap (the caller will free it)
 int *copy_array(const int *a, int n) {
-    // TODO: malloc(n * sizeof(int)), kiểm tra NULL, chép từng phần tử
+    // TODO: malloc(n * sizeof(int)), check for NULL, copy each element
     (void)a; (void)n;
     return NULL;
 }
 
-// 3.5 Trả về mảng mới chỉ gồm các số chẵn của a (giữ nguyên thứ tự).
-//     Số phần tử của mảng kết quả ghi vào *returnSize.
+// 3.5 Return a new array containing only the even numbers of a (in the same order).
+//     Store the number of elements of the result in *returnSize.
 int *filter_even(const int *a, int n, int *returnSize) {
     // TODO
     (void)a; (void)n;
@@ -66,39 +66,39 @@ int *filter_even(const int *a, int n, int *returnSize) {
     return NULL;
 }
 
-// 3.6 Tự cài đặt strdup: trả về bản sao của chuỗi s trên heap
+// 3.6 Implement strdup yourself: return a heap copy of the string s
 char *my_strdup(const char *s) {
-    // TODO: đếm độ dài, malloc(độ dài + 1) — vì sao +1?
+    // TODO: count the length, malloc(length + 1) - why +1?
     (void)s;
     return NULL;
 }
 
-// 3.7 Thêm value vào cuối mảng động arr.
-//     *size: số phần tử hiện có; *capacity: số phần tử đã cấp phát.
-//     Nếu đầy (*size == *capacity): nhân đôi capacity bằng realloc
-//     (nếu *capacity == 0 thì cấp phát 1 phần tử).
-//     Trả về con trỏ tới mảng (có thể đã thay đổi sau realloc).
+// 3.7 Append value to the end of the dynamic array arr.
+//     *size: current number of elements; *capacity: number of elements allocated.
+//     If full (*size == *capacity): double the capacity using realloc
+//     (if *capacity == 0, allocate 1 element).
+//     Return a pointer to the array (it may have changed after realloc).
 int *push_back(int *arr, int *size, int *capacity, int value) {
     // TODO
     (void)size; (void)capacity; (void)value;
     return arr;
 }
 
-// 3.8 Cấp phát ma trận rows x cols bằng int ** (Lecture 7), khởi tạo toàn 0
+// 3.8 Allocate a rows x cols matrix as int ** (Lecture 7), initialized to all 0
 int **alloc_matrix(int rows, int cols) {
-    // TODO: 1 lần malloc cho mảng con trỏ hàng + rows lần calloc cho từng hàng
+    // TODO: 1 malloc for the array of row pointers + rows calls to calloc, one per row
     (void)rows; (void)cols;
     return NULL;
 }
 
-// 3.8 Giải phóng ma trận: từng hàng trước, mảng con trỏ sau
+// 3.8 Free the matrix: each row first, then the array of pointers
 void free_matrix(int **m, int rows) {
     // TODO
     (void)m; (void)rows;
 }
 
-// 3.9 Cấp phát một int trên heap, gán giá trị value, và "trả về" qua tham số p
-//     (sửa lỗi của out-of-scope-allocation_1.c)
+// 3.9 Allocate an int on the heap, set it to value, and "return" it through parameter p
+//     (fixes the bug in out-of-scope-allocation_1.c)
 void allocate_int(int **p, int value) {
     // TODO
     (void)p; (void)value;
@@ -167,6 +167,6 @@ int main() {
     CHECK(p != NULL && *p == 42);
     free(p);
 
-    printf("\nKết quả: %d/%d PASS\n", passed, total);
+    printf("\nResult: %d/%d PASS\n", passed, total);
     return passed == total ? 0 : 1;
 }

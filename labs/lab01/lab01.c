@@ -1,10 +1,10 @@
-// Lab 1 — Nền tảng C
-// Biên dịch và chạy:  gcc -Wall -Wextra lab01.c -o lab01 && ./lab01
-// Nhiệm vụ: cài đặt các hàm có đánh dấu TODO cho đến khi tất cả đều PASS.
+// Lab 1 - C Fundamentals
+// Compile and run:  gcc -Wall -Wextra lab01.c -o lab01 && ./lab01
+// Task: implement the functions marked TODO until all tests PASS.
 #include <stdio.h>
 
 // ---------------------------------------------------------------------------
-// Khung kiểm tra đơn giản (không cần sửa)
+// Simple test harness (no need to modify)
 static int passed = 0, total = 0;
 #define CHECK(expr)                                 \
     do {                                            \
@@ -18,68 +18,68 @@ static int passed = 0, total = 0;
     } while (0)
 // ---------------------------------------------------------------------------
 
-// 1.1 Tổng hai số
+// 1.1 Sum of two numbers
 int add(int a, int b) {
     // TODO
-    (void)a; (void)b; // xoá dòng này khi cài đặt
-    return -1; // TODO: sửa giá trị trả về
+    (void)a; (void)b; // delete this line when implementing
+    return -1; // TODO: fix the return value
 }
 
-// 1.2 Tổng các chữ số của n (n có thể âm: sum_digits(-12) = 3)
+// 1.2 Sum of the digits of n (n may be negative: sum_digits(-12) = 3)
 int sum_digits(int n) {
-    // TODO: dùng n % 10 để lấy chữ số cuối, n / 10 để bỏ chữ số cuối
+    // TODO: use n % 10 to get the last digit, n / 10 to drop the last digit
     (void)n;
-    return -1; // TODO: sửa giá trị trả về
+    return -1; // TODO: fix the return value
 }
 
-// 1.3 n! bằng vòng lặp (0! = 1)
+// 1.3 n! using a loop (0! = 1)
 long factorial(int n) {
     // TODO
     (void)n;
-    return -1; // TODO: sửa giá trị trả về
+    return -1; // TODO: fix the return value
 }
 
-// 1.4a Fibonacci bằng đệ quy: fib(0) = 0, fib(1) = 1, fib(n) = fib(n-1) + fib(n-2)
+// 1.4a Recursive Fibonacci: fib(0) = 0, fib(1) = 1, fib(n) = fib(n-1) + fib(n-2)
 long fib_recursive(int n) {
     // TODO
     (void)n;
-    return -1; // TODO: sửa giá trị trả về
+    return -1; // TODO: fix the return value
 }
 
-// 1.4b Fibonacci bằng vòng lặp
+// 1.4b Iterative Fibonacci
 long fib_loop(int n) {
     // TODO
     (void)n;
-    return -1; // TODO: sửa giá trị trả về
+    return -1; // TODO: fix the return value
 }
 
-// 1.5 Trả về 1 nếu n là số nguyên tố, ngược lại 0 (số < 2 không phải số nguyên tố)
+// 1.5 Return 1 if n is prime, otherwise 0 (numbers < 2 are not prime)
 int is_prime(int n) {
-    // TODO: chỉ cần thử các ước i với i * i <= n
+    // TODO: only need to try divisors i with i * i <= n
     (void)n;
-    return -1; // TODO: sửa giá trị trả về
+    return -1; // TODO: fix the return value
 }
 
-// 1.6 Ước chung lớn nhất (thuật toán Euclid): gcd(a, b) = gcd(b, a % b), gcd(a, 0) = a
+// 1.6 Greatest common divisor (Euclid's algorithm): gcd(a, b) = gcd(b, a % b), gcd(a, 0) = a
 int gcd(int a, int b) {
     // TODO
     (void)a; (void)b;
-    return -1; // TODO: sửa giá trị trả về
+    return -1; // TODO: fix the return value
 }
 
-// 1.7 Năm nhuận
+// 1.7 Leap year
 int is_leap_year(int y) {
     // TODO
     (void)y;
-    return -1; // TODO: sửa giá trị trả về
+    return -1; // TODO: fix the return value
 }
 
-// 1.8 Số ngày trong tháng. BẮT BUỘC dùng switch, gộp các case cùng kết quả.
-// Trả về 0 nếu month không nằm trong 1..12
+// 1.8 Number of days in a month. You MUST use switch, grouping cases with the same result.
+// Return 0 if month is not in 1..12
 int days_in_month(int month, int year) {
     // TODO
     (void)month; (void)year;
-    return -1; // TODO: sửa giá trị trả về
+    return -1; // TODO: fix the return value
 }
 
 int main() {
@@ -130,6 +130,6 @@ int main() {
     CHECK(days_in_month(2, 2024) == 29);
     CHECK(days_in_month(13, 2024) == 0);
 
-    printf("\nKết quả: %d/%d PASS\n", passed, total);
+    printf("\nResult: %d/%d PASS\n", passed, total);
     return passed == total ? 0 : 1;
 }

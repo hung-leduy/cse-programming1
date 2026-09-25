@@ -1,7 +1,7 @@
-// Lab 4 — Kiểm tra module student (không cần sửa)
-//   make test       chạy kiểm tra
-//   make debug      chạy kiểm tra, bật DEBUG_PRINT
-//   make valgrind   kiểm tra rò rỉ bộ nhớ
+// Lab 4 - Tests for the student module (no need to modify)
+//   make test       run the tests
+//   make debug      run the tests with DEBUG_PRINT enabled
+//   make valgrind   check for memory leaks
 #include <stdlib.h>
 #include <string.h>
 #include "student.h"
@@ -24,10 +24,10 @@ int main() {
     printf("4.1 make_student\n");
     Student an = make_student(1003, "Nguyen Van An", 3.45f);
     CHECK(an.id == 1003 && strcmp(an.name, "Nguyen Van An") == 0 && an.gpa == 3.45f);
-    Student longname = make_student(1, "Ten rat dai rat dai rat dai rat dai rat dai rat dai rat dai", 2.0f);
+    Student longname = make_student(1, "Very long name very long name very long name very long name", 2.0f);
     CHECK(strlen(longname.name) == MAX_NAME - 1);
 
-    printf("4.2 danh sách liên kết\n");
+    printf("4.2 linked list\n");
     Node *list = NULL;
     CHECK(list_length(list) == 0);
     list = list_push_back(list, an);
@@ -43,24 +43,24 @@ int main() {
     CHECK(found != NULL && strcmp(found->name, "Pham Thi Dung") == 0);
     CHECK(list_find(list, 9999) == NULL);
     if (found != NULL)
-        found->gpa = 3.65f; // sửa trực tiếp trong danh sách
+        found->gpa = 3.65f; // modify directly in the list
     CHECK(list_find(list, 1002) != NULL && list_find(list, 1002)->gpa == 3.65f);
 
-    list = list_remove(list, 1005); // xoá nút đầu
-    list = list_remove(list, 1002); // xoá nút giữa
-    list = list_remove(list, 1004); // xoá nút cuối
-    list = list_remove(list, 9999); // không có
+    list = list_remove(list, 1005); // remove the head node
+    list = list_remove(list, 1002); // remove a middle node
+    list = list_remove(list, 1004); // remove the tail node
+    list = list_remove(list, 9999); // not present
     CHECK(list_length(list) == 2);
     CHECK(list != NULL && list->data.id == 1003);
     CHECK(list_find(list, 1002) == NULL);
 
     list = list_push_back(list, make_student(1006, "Vo Thi Giang", 3.90f));
     list = list_push_back(list, make_student(1007, "Dang Van Hai", 2.50f));
-    printf("\nDanh sách hiện tại:\n");
+    printf("\nCurrent list:\n");
     list_print(list);
     printf("\n");
 
-    printf("4.3 con trỏ hàm\n");
+    printf("4.3 function pointers\n");
     Student arr[10];
     int n = list_to_array(list, arr, 10);
     CHECK(n == 4);
@@ -79,6 +79,6 @@ int main() {
 
     list_free(list);
 
-    printf("\nKết quả: %d/%d PASS\n", passed, total);
+    printf("\nResult: %d/%d PASS\n", passed, total);
     return passed == total ? 0 : 1;
 }

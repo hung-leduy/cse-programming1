@@ -1,12 +1,12 @@
-// Lab 2 — Bài tập debug
-// Chương trình này biên dịch được nhưng cho kết quả SAI. Có 4 lỗi.
-// Dùng gdb hoặc VS Code (breakpoint, step, watch) để tìm, KHÔNG thêm printf.
+// Lab 2 - Debugging exercise
+// This program compiles but produces WRONG results. There are 4 bugs.
+// Use gdb or VS Code (breakpoints, step, watch) to find them; do NOT add printf.
 //
-// Ghi lại các lỗi đã tìm được:
-//   Lỗi 1: dòng ..., triệu chứng ..., cách sửa ...
-//   Lỗi 2:
-//   Lỗi 3:
-//   Lỗi 4:
+// Record the bugs you find:
+//   Bug 1: line ..., symptom ..., fix ...
+//   Bug 2:
+//   Bug 3:
+//   Bug 4:
 #include <stdio.h>
 
 #define N 5
@@ -40,7 +40,7 @@ void reverse_string(char s[], int len) {
 
 int main() {
     int data[N] = {10, 20, 30, 40, 51};
-    int temps[N] = {-5, -3, -8, -1, -9}; // nhiệt độ mùa đông
+    int temps[N] = {-5, -3, -8, -1, -9}; // winter temperatures
 
     printf("sum = %d\n", sum_array(data, N));
     printf("average = %.2f\n", average(data, N));

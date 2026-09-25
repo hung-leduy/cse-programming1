@@ -1,13 +1,13 @@
-// Lab 4 — Module quản lý sinh viên: phần CÀI ĐẶT (implementation)
-// Nhiệm vụ: cài đặt các hàm có đánh dấu TODO. Chạy "make test" để kiểm tra.
+// Lab 4 - Student management module: IMPLEMENTATION
+// Task: implement the functions marked TODO. Run "make test" to check.
 #include <stdlib.h>
 #include <string.h>
 #include "student.h"
 
 // ===================== 4.1 Struct =====================
 
-// Tạo một Student. Tên dài hơn MAX_NAME - 1 ký tự thì cắt bớt
-// (gợi ý: strncpy rồi tự đặt '\0' ở cuối, hoặc snprintf).
+// Create a Student. Names longer than MAX_NAME - 1 characters are truncated
+// (hint: strncpy then set '\0' at the end yourself, or use snprintf).
 Student make_student(int id, const char *name, float gpa) {
     Student s = {0};
     // TODO
@@ -15,21 +15,21 @@ Student make_student(int id, const char *name, float gpa) {
     return s;
 }
 
-// In một dòng dạng:  "  1001  Nguyen Van An                  3.45"
+// Print one line in the form:  "  1001  Nguyen Van An                  3.45"
 void print_student(const Student *s) {
     printf("%6d  %-30s %.2f\n", s->id, s->name, s->gpa);
 }
 
-// ===================== 4.2 Danh sách liên kết =====================
+// ===================== 4.2 Linked list =====================
 
-// Thêm vào đầu danh sách, trả về head mới
+// Insert at the front of the list, return the new head
 Node *list_push_front(Node *head, Student s) {
-    // TODO: malloc một Node, gán data và next, trả về nút mới
+    // TODO: malloc a Node, set data and next, return the new node
     (void)s;
     return head;
 }
 
-// Thêm vào cuối danh sách, trả về head (thay đổi nếu danh sách đang rỗng)
+// Insert at the end of the list, return head (changes if the list was empty)
 Node *list_push_back(Node *head, Student s) {
     // TODO
     (void)s;
@@ -37,86 +37,86 @@ Node *list_push_back(Node *head, Student s) {
     return head;
 }
 
-// Số phần tử
+// Number of elements
 int list_length(const Node *head) {
     // TODO
     (void)head;
     return -1;
 }
 
-// Tìm theo id; trả về con trỏ tới Student trong danh sách (để sửa được), hoặc NULL
+// Find by id; return a pointer to the Student in the list (so it can be modified), or NULL
 Student *list_find(Node *head, int id) {
     // TODO
     (void)head; (void)id;
     return NULL;
 }
 
-// Xoá nút đầu tiên có id tương ứng (nhớ free), trả về head mới.
-// Không có id đó thì giữ nguyên danh sách.
+// Remove the first node with the matching id (remember to free it), return the new head.
+// If the id is not found, leave the list unchanged.
 Node *list_remove(Node *head, int id) {
-    // TODO: xét riêng trường hợp xoá nút đầu
+    // TODO: handle removing the head node as a special case
     (void)id;
     return head;
 }
 
-// In toàn bộ danh sách
+// Print the whole list
 void list_print(const Node *head) {
     for (const Node *p = head; p != NULL; p = p->next)
         print_student(&p->data);
 }
 
-// Giải phóng toàn bộ danh sách
+// Free the whole list
 void list_free(Node *head) {
-    // TODO: lưu next TRƯỚC khi free nút hiện tại
+    // TODO: save next BEFORE freeing the current node
     (void)head;
 }
 
-// ===================== 4.3 Con trỏ hàm =====================
+// ===================== 4.3 Function pointers =====================
 
-// Các hàm so sánh cho qsort: a, b là con trỏ tới Student.
-// Trả về < 0 nếu a đứng trước b, 0 nếu bằng nhau, > 0 nếu a đứng sau b.
+// Comparison functions for qsort: a, b are pointers to Student.
+// Return < 0 if a comes before b, 0 if equal, > 0 if a comes after b.
 
 int compare_by_id(const void *a, const void *b) {
     const Student *x = a, *y = b;
-    return x->id - y->id; // ví dụ mẫu
+    return x->id - y->id; // example
 }
 
 int compare_by_name(const void *a, const void *b) {
-    // TODO: dùng strcmp
+    // TODO: use strcmp
     (void)a; (void)b;
     return 0;
 }
 
-// GPA giảm dần (GPA cao đứng trước). Cẩn thận: gpa là float, không trả về x->gpa - y->gpa!
+// GPA in descending order (higher GPA first). Careful: gpa is a float, do not return x->gpa - y->gpa!
 int compare_by_gpa_desc(const void *a, const void *b) {
     // TODO
     (void)a; (void)b;
     return 0;
 }
 
-// Chép tối đa max phần tử của danh sách vào mảng out, trả về số phần tử đã chép
+// Copy at most max elements of the list into the array out, return the number copied
 int list_to_array(const Node *head, Student out[], int max) {
     // TODO
     (void)head; (void)out; (void)max;
     return 0;
 }
 
-// Sắp xếp mảng theo hàm so sánh cmp
+// Sort the array using the comparison function cmp
 void sort_students(Student arr[], int n, StudentCompare cmp) {
-    // TODO: gọi qsort
+    // TODO: call qsort
     (void)arr; (void)n; (void)cmp;
 }
 
-// Sinh viên xuất sắc: gpa >= 3.6
+// Excellent student: gpa >= 3.6
 int is_excellent(const Student *s) {
     // TODO
     (void)s;
     return 0;
 }
 
-// Đếm số sinh viên thoả điều kiện pred
+// Count the students that satisfy pred
 int count_if(const Node *head, StudentPredicate pred) {
-    // TODO: gọi pred(&p->data) cho từng nút
+    // TODO: call pred(&p->data) for each node
     (void)head; (void)pred;
     return -1;
 }

@@ -1,5 +1,5 @@
-// Lab 4 — Module quản lý sinh viên: phần KHAI BÁO (interface)
-// File này đã hoàn chỉnh, KHÔNG cần sửa. Cài đặt nằm trong student.c.
+// Lab 4 - Student management module: DECLARATIONS (interface)
+// This file is complete; do NOT modify it. The implementation is in student.c.
 #ifndef STUDENT_H
 #define STUDENT_H
 
@@ -7,7 +7,7 @@
 
 #define MAX_NAME 50
 
-// Macro debug: chỉ in khi biên dịch với -DDEBUG (make debug)
+// Debug macro: prints only when compiled with -DDEBUG (make debug)
 #ifdef DEBUG
 #define DEBUG_PRINT(fmt, ...) \
     fprintf(stderr, "[DEBUG] %s:%d: " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__)
@@ -21,24 +21,24 @@ typedef struct Student {
     float gpa;
 } Student;
 
-// Một nút của danh sách liên kết đơn
+// A node of a singly linked list
 typedef struct Node {
     Student data;
     struct Node *next;
 } Node;
 
-// Kiểu con trỏ hàm dùng để so sánh (cùng dạng với tham số của qsort)
+// Function pointer type for comparison (same signature as qsort's comparator)
 typedef int (*StudentCompare)(const void *, const void *);
 
-// Kiểu con trỏ hàm dùng để lọc: trả về 1 nếu sinh viên thoả điều kiện
+// Function pointer type for filtering: returns 1 if the student meets the condition
 typedef int (*StudentPredicate)(const Student *);
 
 // ---- 4.1 Struct ----
 Student make_student(int id, const char *name, float gpa);
 void print_student(const Student *s);
 
-// ---- 4.2 Danh sách liên kết ----
-// Các hàm thay đổi danh sách trả về con trỏ head MỚI:  head = list_push_front(head, s);
+// ---- 4.2 Linked list ----
+// Functions that modify the list return the NEW head pointer:  head = list_push_front(head, s);
 Node *list_push_front(Node *head, Student s);
 Node *list_push_back(Node *head, Student s);
 int list_length(const Node *head);
@@ -47,7 +47,7 @@ Node *list_remove(Node *head, int id);
 void list_print(const Node *head);
 void list_free(Node *head);
 
-// ---- 4.3 Con trỏ hàm ----
+// ---- 4.3 Function pointers ----
 int compare_by_id(const void *a, const void *b);
 int compare_by_name(const void *a, const void *b);
 int compare_by_gpa_desc(const void *a, const void *b);

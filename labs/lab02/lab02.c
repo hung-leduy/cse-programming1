@@ -1,11 +1,11 @@
-// Lab 2 — Mảng và chuỗi
-// Biên dịch và chạy:  gcc -Wall -Wextra -g lab02.c -o lab02 && ./lab02
-// Nhiệm vụ: cài đặt các hàm có đánh dấu TODO cho đến khi tất cả đều PASS.
+// Lab 2 - Arrays and Strings
+// Compile and run:  gcc -Wall -Wextra -g lab02.c -o lab02 && ./lab02
+// Task: implement the functions marked TODO until all tests PASS.
 #include <stdio.h>
-#include <string.h> // chỉ dùng trong main để kiểm tra
+#include <string.h> // used only in main for testing
 
 // ---------------------------------------------------------------------------
-// Khung kiểm tra đơn giản (không cần sửa)
+// Simple test harness (no need to modify)
 static int passed = 0, total = 0;
 #define CHECK(expr)                                 \
     do {                                            \
@@ -29,71 +29,71 @@ static int same_array(const int a[], const int b[], int n) {
 #define ROWS 3
 #define COLS 4
 
-// 2.1 Giá trị lớn nhất của mảng (n >= 1)
+// 2.1 Maximum value of the array (n >= 1)
 int array_max(int a[], int n) {
-    // TODO: lưu ý mảng có thể toàn số âm
+    // TODO: note that the array may contain only negative numbers
     (void)a; (void)n;
     return -1;
 }
 
-// 2.2 Trung bình cộng (n >= 1)
+// 2.2 Arithmetic mean (n >= 1)
 double array_mean(int a[], int n) {
-    // TODO: cẩn thận phép chia nguyên
+    // TODO: beware of integer division
     (void)a; (void)n;
     return -1;
 }
 
-// 2.3 Đảo ngược mảng tại chỗ: {1, 2, 3} -> {3, 2, 1}
+// 2.3 Reverse the array in place: {1, 2, 3} -> {3, 2, 1}
 void reverse_array(int a[], int n) {
-    // TODO: hoán đổi a[i] và a[n - 1 - i]; chỉ cần đi đến giữa mảng
+    // TODO: swap a[i] and a[n - 1 - i]; only go up to the middle of the array
     (void)a; (void)n;
 }
 
-// 2.4 Số lần xuất hiện của value trong mảng
+// 2.4 Number of occurrences of value in the array
 int count_value(int a[], int n, int value) {
     // TODO
     (void)a; (void)n; (void)value;
     return -1;
 }
 
-// 2.5 Max theo trục (Lecture 3):
-//   axis = 0: max của từng CỘT -> out có COLS phần tử
-//   axis = 1: max của từng HÀNG -> out có rows phần tử
+// 2.5 Max along an axis (Lecture 3):
+//   axis = 0: max of each COLUMN -> out has COLS elements
+//   axis = 1: max of each ROW -> out has rows elements
 void max_2d(int a[][COLS], int rows, int axis, int out[]) {
     // TODO
     (void)a; (void)rows; (void)axis; (void)out;
 }
 
-// 2.6 Nhân ma trận: C = A x B, với A là 2x3, B là 3x2, C là 2x2
+// 2.6 Matrix multiplication: C = A x B, where A is 2x3, B is 3x2, C is 2x2
 void matmul(int A[2][3], int B[3][2], int C[2][2]) {
-    // TODO: C[i][j] = tổng theo k của A[i][k] * B[k][j]
+    // TODO: C[i][j] = sum over k of A[i][k] * B[k][j]
     (void)A; (void)B; (void)C;
 }
 
-// 2.7 Tự cài đặt strlen (KHÔNG dùng <string.h>)
+// 2.7 Implement strlen yourself (do NOT use <string.h>)
 int my_strlen(const char s[]) {
-    // TODO: đếm tới khi gặp '\0'
+    // TODO: count until you reach '\0'
     (void)s;
     return -1;
 }
 
-// 2.8 Đổi chữ thường thành chữ hoa tại chỗ, giữ nguyên các ký tự khác
+// 2.8 Convert lowercase letters to uppercase in place, leaving other characters unchanged
 void to_upper(char s[]) {
-    // TODO: 'a' - 'A' == 32 (bảng ASCII)
+    // TODO: 'a' - 'A' == 32 (ASCII table)
     (void)s;
 }
 
-// 2.9 Trả về 1 nếu s là chuỗi đối xứng ("racecar", "abba", ""), ngược lại 0
+// 2.9 Return 1 if s is a palindrome ("racecar", "abba", ""), otherwise 0
 int is_palindrome(const char s[]) {
     // TODO
     (void)s;
     return -1;
 }
 
-// 2.10 Đếm số từ; các từ cách nhau bởi một hoặc nhiều dấu cách ' '
+// 2.10 Count words; words are separated by one or more spaces ' '
 //      "  hello   world " -> 2
 int count_words(const char s[]) {
-    // TODO: đếm số lần "bắt đầu một từ": ký tự khác ' ' mà đứng trước là ' ' (hoặc đầu chuỗi)
+    // TODO: count the "word starts": a non-' ' character preceded by ' ' (or the start of the string)
     (void)s;
     return -1;
 }
@@ -162,6 +162,6 @@ int main() {
     CHECK(count_words("   ") == 0);
     CHECK(count_words("C") == 1);
 
-    printf("\nKết quả: %d/%d PASS\n", passed, total);
+    printf("\nResult: %d/%d PASS\n", passed, total);
     return passed == total ? 0 : 1;
 }

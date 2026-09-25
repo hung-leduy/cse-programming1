@@ -1,26 +1,26 @@
-// Lab 3 — Bài tập valgrind
-// Chương trình in ra kết quả "có vẻ đúng" nhưng có 4 lỗi bộ nhớ.
+// Lab 3 - Valgrind exercise
+// The program prints results that "look correct" but has 4 memory bugs.
 //   gcc -Wall -g leaky.c -o leaky
 //   valgrind --leak-check=full --track-origins=yes ./leaky
-// Sửa tất cả lỗi cho tới khi valgrind báo: 0 errors, không rò rỉ.
+// Fix all the bugs until valgrind reports: 0 errors, no leaks.
 //
-// Ghi lại các lỗi đã tìm được:
-//   Lỗi 1: dòng ..., valgrind báo ..., cách sửa ...
-//   Lỗi 2:
-//   Lỗi 3:
-//   Lỗi 4:
+// Record the bugs you find:
+//   Bug 1: line ..., valgrind reports ..., fix ...
+//   Bug 2:
+//   Bug 3:
+//   Bug 4:
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-// Tạo bản sao của chuỗi trên heap
+// Create a copy of the string on the heap
 char *copy_string(const char *s) {
     char *copy = malloc(strlen(s));
     strcpy(copy, s);
     return copy;
 }
 
-// Tạo mảng n phần tử: phần tử thứ i bằng i * i
+// Create an array of n elements: element i equals i * i
 int *make_squares(int n) {
     int *a = malloc(n * sizeof(int));
     for (int i = 1; i < n; i++)

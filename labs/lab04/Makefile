@@ -1,9 +1,9 @@
-# Lab 4 — Chương trình nhiều file
-#   make test       biên dịch và chạy kiểm tra
-#   make debug      biên dịch lại với -DDEBUG và chạy kiểm tra
-#   make valgrind   kiểm tra bộ nhớ
-#   make app        (bài tập về nhà) chương trình quản lý sinh viên có menu
-#   make clean      xoá file đã biên dịch
+# Lab 4 - Multi-file program
+#   make test       compile and run the tests
+#   make debug      recompile with -DDEBUG and run the tests
+#   make valgrind   check memory
+#   make app        (homework) menu-driven student management program
+#   make clean      delete compiled files
 
 CC = gcc
 CFLAGS = -Wall -Wextra -g
@@ -13,14 +13,14 @@ CFLAGS = -Wall -Wextra -g
 test: test_student
 	./test_student
 
-# Liên kết: ghép các file object thành file thực thi
+# Linking: combine the object files into an executable
 test_student: test_student.o student.o
 	$(CC) $(CFLAGS) $^ -o $@
 
 app: app.o student.o
 	$(CC) $(CFLAGS) $^ -o $@
 
-# Biên dịch: mỗi file .c thành một file .o; biên dịch lại khi student.h thay đổi
+# Compiling: each .c file into a .o file; recompile when student.h changes
 %.o: %.c student.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
