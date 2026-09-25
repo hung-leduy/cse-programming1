@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// typedef <kiểu> <tên mới>;
+// typedef <type> <new name>;
 struct fraction {
     int numerator;
     int denominator;
@@ -12,16 +12,16 @@ struct treenode {
     int data;
     struct treenode *left, *right;
 };
-typedef struct treenode *Tree; // Tree là con trỏ tới struct treenode
+typedef struct treenode *Tree; // Tree is a pointer to struct treenode
 
-typedef int (*fp)(int, int); // fp là kiểu con trỏ hàm int (*)(int, int)
+typedef int (*fp)(int, int); // fp is the function pointer type int (*)(int, int)
 
 int add(int a, int b) { return a + b; }
 
 int apply(fp f, int a, int b) { return f(a, b); }
 
 int main() {
-    Fraction f = {22, 7}; // không cần viết "struct fraction"
+    Fraction f = {22, 7}; // no need to write "struct fraction"
     printf("%d/%d\n", f.numerator, f.denominator);
 
     Tree t = malloc(sizeof(struct treenode));

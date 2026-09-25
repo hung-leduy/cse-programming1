@@ -1,4 +1,4 @@
 #pragma once
 
-// Khai báo (prototype) của hàm print_hello
+// Declaration (prototype) of print_hello
 int print_hello(const char *name);

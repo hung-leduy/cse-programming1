@@ -5,17 +5,17 @@ int main() {
     i++;
     printf("i = %d\n", i); // 43
 
-    // i++ : lấy giá trị trước, sau đó mới tăng
+    // i++ : use the value first, then increment
     i = 42;
     int j = (i++ + 10);
     printf("j = %d, i = %d\n", j, i); // j = 52, i = 43
 
-    // ++i : tăng trước, sau đó mới lấy giá trị
+    // ++i : increment first, then use the value
     i = 42;
     j = (++i + 10);
     printf("j = %d, i = %d\n", j, i); // j = 53, i = 43
 
-    // Tương tự với i-- và --i
+    // Same for i-- and --i
     i = 42;
     printf("i-- = %d, ", i--);
     printf("i = %d\n", i); // 41

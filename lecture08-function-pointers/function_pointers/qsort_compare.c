@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// qsort của thư viện chuẩn nhận một con trỏ hàm để so sánh hai phần tử
+// The standard library qsort takes a function pointer to compare two elements
 int ascending(const void *a, const void *b) {
     return *(const int *)a - *(const int *)b;
 }

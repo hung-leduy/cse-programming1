@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Cấp phát mảng n chiều bằng đệ quy, trả về (void *)
-// shape: kích thước từng chiều, n_dims: số chiều
+// Allocate an n-dimensional array recursively, returning (void *)
+// shape: size of each dimension, n_dims: number of dimensions
 void *alloc_nd(int *shape, int n_dims) {
     if (n_dims == 1)
-        return calloc(shape[0], sizeof(int)); // chiều cuối: mảng int
+        return calloc(shape[0], sizeof(int)); // last dimension: an int array
     void **a = malloc(shape[0] * sizeof(void *));
     for (int i = 0; i < shape[0]; i++)
-        a[i] = alloc_nd(shape + 1, n_dims - 1); // cấp phát các chiều còn lại
+        a[i] = alloc_nd(shape + 1, n_dims - 1); // allocate the remaining dimensions
     return a;
 }
 
@@ -23,7 +23,7 @@ void free_nd(void *a, int *shape, int n_dims) {
 
 int main() {
     int shape[] = {2, 3, 4};
-    int ***a = alloc_nd(shape, 3); // ép (void *) thành int *** cho mảng 3 chiều
+    int ***a = alloc_nd(shape, 3); // convert (void *) to int *** for a 3D array
 
     int value = 0;
     for (int i = 0; i < shape[0]; i++)

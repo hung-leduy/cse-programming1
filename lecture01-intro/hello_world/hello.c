@@ -1,7 +1,7 @@
-#include <stdio.h> // thư viện nhập/xuất chuẩn
+#include <stdio.h> // standard input/output library
 
-// Hàm main: nơi chương trình bắt đầu chạy
+// main: where program execution begins
 int main() {
-    printf("hello, world\n"); // gọi hàm printf để in ra màn hình
+    printf("hello, world\n"); // call printf to print to the screen
     return 0;
 }

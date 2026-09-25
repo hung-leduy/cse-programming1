@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Tìm giá trị lớn nhất, trả về qua tham số con trỏ
+// Find the maximum, returned through a pointer parameter
 void find_max(int *a, int n, int *max) {
     *max = a[0];
     for (int i = 1; i < n; i++)
@@ -9,7 +9,7 @@ void find_max(int *a, int n, int *max) {
             *max = a[i];
 }
 
-// Đảo ngược mảng bằng cách hoán đổi giá trị
+// Reverse an array by swapping values
 void reverse(int *a, int n) {
     for (int i = 0, j = n - 1; i < j; i++, j--) {
         int tmp = a[i];
@@ -18,8 +18,8 @@ void reverse(int *a, int n) {
     }
 }
 
-// Trả về con trỏ tới mảng mới và kích thước qua *returnSize
-// (giống kiểu hàm trên LeetCode)
+// Return a pointer to a new array, with its size in *returnSize
+// (LeetCode-style function)
 int *even_numbers(int *a, int n, int *returnSize) {
     int *out = malloc(n * sizeof(int));
     int count = 0;
@@ -27,7 +27,7 @@ int *even_numbers(int *a, int n, int *returnSize) {
         if (a[i] % 2 == 0)
             out[count++] = a[i];
     *returnSize = count;
-    return out; // bộ nhớ heap vẫn tồn tại sau khi hàm kết thúc
+    return out; // heap memory persists after the function returns
 }
 
 int main() {

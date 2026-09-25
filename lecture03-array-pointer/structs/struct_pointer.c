@@ -9,15 +9,15 @@ struct fraction {
 int main() {
     struct fraction *f1_p, *f2_p;
 
-    // Quiz: cấp phát bộ nhớ cho con trỏ tới struct
+    // Quiz: allocate memory for a pointer to a struct
     f1_p = malloc(sizeof(struct fraction));
-    f2_p = malloc(sizeof(*f2_p)); // cách viết tương đương
+    f2_p = malloc(sizeof(*f2_p)); // equivalent form
 
-    // Giải tham chiếu bằng "*" (cần dấu ngoặc vì "." ưu tiên hơn "*")
+    // Dereference with "*" (parentheses needed since "." binds tighter than "*")
     (*f1_p).numerator = 22;
     (*f1_p).denominator = 7;
 
-    // Dùng "->" (khuyến nghị)
+    // Use "->" (recommended)
     f2_p->numerator = 355;
     f2_p->denominator = 113;
 

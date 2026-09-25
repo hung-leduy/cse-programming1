@@ -4,8 +4,8 @@ int convert(char var) {
     return var - '0';
 }
 
-// Bài tập 2: atoi (ASCII to integer)
-// Đặt tên my_atoi để tránh trùng với hàm atoi của <stdlib.h>
+// Exercise 2: atoi (ASCII to integer)
+// Named my_atoi to avoid clashing with atoi from <stdlib.h>
 int my_atoi(char s[], int size) {
     int num = 0;
     for (int i = 0; i < size; i++) {

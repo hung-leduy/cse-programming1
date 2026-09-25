@@ -13,14 +13,14 @@ struct node *new_node(int data) {
     return n;
 }
 
-// Chèn vào đầu danh sách: O(1)
+// Insert at the head of the list: O(1)
 void push_front(struct node **head, int data) {
     struct node *n = new_node(data);
     n->next = *head;
     *head = n;
 }
 
-// Chèn vào cuối danh sách: O(n)
+// Insert at the tail of the list: O(n)
 void push_back(struct node **head, int data) {
     struct node *n = new_node(data);
     if (*head == NULL) {
@@ -33,7 +33,7 @@ void push_back(struct node **head, int data) {
     cur->next = n;
 }
 
-// Chèn vào vị trí index (0 = đầu danh sách)
+// Insert at position index (0 = head of the list)
 void insert_at(struct node **head, int index, int data) {
     if (index == 0) {
         push_front(head, data);
@@ -43,13 +43,13 @@ void insert_at(struct node **head, int index, int data) {
     for (int i = 0; cur != NULL && i < index - 1; i++)
         cur = cur->next;
     if (cur == NULL)
-        return; // index vượt quá độ dài
+        return; // index exceeds the length
     struct node *n = new_node(data);
     n->next = cur->next;
     cur->next = n;
 }
 
-// Truy cập phần tử thứ index; trả về 1 nếu tìm thấy
+// Access the element at index; returns 1 if found
 int get(struct node *head, int index, int *value) {
     for (int i = 0; head != NULL; i++, head = head->next)
         if (i == index) {
@@ -59,9 +59,9 @@ int get(struct node *head, int index, int *value) {
     return 0;
 }
 
-// Xoá phần tử đầu tiên có giá trị bằng data
+// Delete the first element whose value equals data
 void delete_value(struct node **head, int data) {
-    struct node **pp = head; // con trỏ tới "ô" đang trỏ tới node hiện tại
+    struct node **pp = head; // pointer to the "slot" that points to the current node
     while (*pp != NULL) {
         if ((*pp)->data == data) {
             struct node *victim = *pp;
@@ -79,10 +79,10 @@ void print_list(struct node *head) {
     printf("NULL\n");
 }
 
-// Giải phóng toàn bộ danh sách
+// Free the entire list
 void free_list(struct node *head) {
     while (head != NULL) {
-        struct node *next = head->next; // lưu next TRƯỚC khi free
+        struct node *next = head->next; // save next BEFORE free
         free(head);
         head = next;
     }

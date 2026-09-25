@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-// Chọn code theo hệ điều hành bằng #ifdef / #else / #endif
-// (_WIN32 được trình biên dịch tự định nghĩa khi build trên Windows)
+// Choose code per operating system with #ifdef / #else / #endif
+// (_WIN32 is predefined by the compiler when building on Windows)
 #ifdef _WIN32
 #include <windows.h>
 #define PLATFORM "Windows"
@@ -15,6 +15,6 @@
 
 int main() {
     printf("Platform: %s\n", PLATFORM);
-    printf("File: %s, line: %d\n", __FILE__, __LINE__); // macro có sẵn
+    printf("File: %s, line: %d\n", __FILE__, __LINE__); // predefined macros
     return 0;
 }

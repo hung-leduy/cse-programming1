@@ -8,11 +8,11 @@ void describe(int num) {
     case 2:
         printf("number 2\n");
         break;
-    case 3: // gộp case 3 và 4
+    case 3: // case 3 and 4 share the same code
     case 4:
         printf("number 3 or 4\n");
         break;
-    default: // không bắt buộc
+    default: // optional
         printf("number must be from 1 to 4\n");
     }
 }

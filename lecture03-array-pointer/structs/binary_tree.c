@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Cây nhị phân tìm kiếm (Binary Search Tree)
+// Binary Search Tree
 struct treenode {
     int data;
     struct treenode *left;
@@ -31,7 +31,7 @@ int contains(struct treenode *root, int data) {
     return 0;
 }
 
-// Duyệt trung thứ tự (in-order): in ra dãy đã sắp xếp
+// In-order traversal: prints the values in sorted order
 void print_inorder(struct treenode *root) {
     if (root == NULL)
         return;
@@ -47,7 +47,7 @@ int height(struct treenode *root) {
     return 1 + (l > r ? l : r);
 }
 
-// Giải phóng theo hậu thứ tự (post-order): con trước, cha sau
+// Free in post-order: children first, then the parent
 void free_tree(struct treenode *root) {
     if (root == NULL)
         return;

@@ -5,8 +5,8 @@ void print_array(int a[], int n) {
     printf("\n");
 }
 
-// Chèn value vào vị trí pos: dời các phần tử sau sang phải -> O(n)
-// capacity là số phần tử tối đa mảng chứa được
+// Insert value at position pos: shift later elements right -> O(n)
+// capacity is the maximum number of elements the array can hold
 int insert_at(int a[], int n, int capacity, int pos, int value) {
     if (n >= capacity || pos < 0 || pos > n)
         return n;
@@ -16,7 +16,7 @@ int insert_at(int a[], int n, int capacity, int pos, int value) {
     return n + 1;
 }
 
-// Xoá phần tử tại vị trí pos: dời các phần tử sau sang trái -> O(n)
+// Delete the element at position pos: shift later elements left -> O(n)
 int delete_at(int a[], int n, int pos) {
     if (pos < 0 || pos >= n)
         return n;

@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-// Tích chập 1 chiều (chế độ "valid"): out có n - k + 1 phần tử
+// 1D convolution ("valid" mode): out has n - k + 1 elements
 void convolve_1d(int in[], int n, int kernel[], int k, int out[]) {
     for (int i = 0; i <= n - k; i++) {
         out[i] = 0;
@@ -9,7 +9,7 @@ void convolve_1d(int in[], int n, int kernel[], int k, int out[]) {
     }
 }
 
-// Tích chập 2 chiều (chế độ "valid") trên ảnh H x W với kernel 3 x 3
+// 2D convolution ("valid" mode) on an H x W image with a 3 x 3 kernel
 #define H 5
 #define W 5
 #define KS 3
@@ -32,7 +32,7 @@ int main() {
     for (int i = 0; i < 4; i++) printf(" %d", out[i]);
     printf("\n");
 
-    // Ảnh 5 x 5 có một vùng sáng (giá trị 9) ở góc dưới phải
+    // 5 x 5 image with a bright region (value 9) in the bottom-right corner
     int img[H][W] = {
         {0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0},
@@ -40,7 +40,7 @@ int main() {
         {0, 0, 9, 9, 9},
         {0, 0, 9, 9, 9},
     };
-    int ker[KS][KS] = {{0, 1, 0}, {1, -4, 1}, {0, 1, 0}}; // Laplacian: phát hiện biên
+    int ker[KS][KS] = {{0, 1, 0}, {1, -4, 1}, {0, 1, 0}}; // Laplacian: edge detection
     int out2[H - KS + 1][W - KS + 1];
     convolve_2d(img, ker, out2);
     printf("2D:\n");

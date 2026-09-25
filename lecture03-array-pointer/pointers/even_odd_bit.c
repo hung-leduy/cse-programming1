@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Chuyển n sang nhị phân (bit thấp nhất ở vị trí 0)
+// Convert n to binary (least significant bit at index 0)
 int *toBinary(int n, int *binSize) {
     int *bin = malloc(32 * sizeof(int));
     int size = 0;
@@ -13,12 +13,12 @@ int *toBinary(int n, int *binSize) {
     return bin;
 }
 
-// LeetCode 2595: đếm số bit 1 ở vị trí chẵn và lẻ
+// LeetCode 2595: count the 1 bits at even and odd positions
 int *evenOddBit(int n, int *returnSize) {
     int *out = malloc(2 * sizeof(int));
     *returnSize = 2;
     int binSize;
-    int *bin = toBinary(n, &binSize); // truyền địa chỉ để hàm ghi vào binSize
+    int *bin = toBinary(n, &binSize); // pass the address so the function can write binSize
     out[0] = out[1] = 0;
     for (int i = 0; i < binSize; i++)
         if (bin[i])

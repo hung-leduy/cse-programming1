@@ -5,14 +5,14 @@ int main() {
     for (int i = 0; i < 5; i++)
         printf("for: %d\n", i);
 
-    // while: kiểm tra điều kiện trước
+    // while: the condition is tested first
     int j = 0;
     while (j < 3) {
         printf("while: %d\n", j);
         j++;
     }
 
-    // do-while: thân vòng lặp chạy ít nhất một lần
+    // do-while: the loop body runs at least once
     int k = 10;
     do {
         printf("do-while: %d\n", k);

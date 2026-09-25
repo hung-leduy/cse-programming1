@@ -3,7 +3,7 @@
 int main() {
     int a = 5, b = 10;
 
-    // Toán tử quan hệ: kết quả là 1 (đúng) hoặc 0 (sai)
+    // Relational operators: result is 1 (true) or 0 (false)
     printf("a == b: %d\n", a == b);
     printf("a != b: %d\n", a != b);
     printf("a >  b: %d\n", a > b);
@@ -11,13 +11,13 @@ int main() {
     printf("a >= b: %d\n", a >= b);
     printf("a <= b: %d\n", a <= b);
 
-    // Toán tử logic
+    // Logical operators
     printf("!(a < b): %d\n", !(a < b));
     printf("a < b && b < 20: %d\n", a < b && b < 20);
     printf("a > b || b < 20: %d\n", a > b || b < 20);
 
-    // Trong C, mọi giá trị khác 0 đều được xem là "đúng"
+    // In C, any nonzero value is considered "true"
     if (42)
-        printf("42 là đúng\n");
+        printf("42 is true\n");
     return 0;
 }

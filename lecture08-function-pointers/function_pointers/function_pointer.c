@@ -5,16 +5,16 @@ int min(int a, int b) { return a < b ? a : b; }
 int sum(int a, int b) { return a + b; }
 
 int main() {
-    int (*func)(int, int); // con trỏ tới hàm nhận (int, int) và trả về int
+    int (*func)(int, int); // pointer to a function taking (int, int) and returning int
 
-    func = max; // tên hàm chính là địa chỉ của hàm
+    func = max; // a function name is the function's address
     printf("max(3, 7) = %d\n", func(3, 7));
     func = min;
     printf("min(3, 7) = %d\n", func(3, 7));
-    func = &sum; // viết &sum cũng được
+    func = &sum; // writing &sum also works
     printf("sum(3, 7) = %d\n", (*func)(3, 7));
 
-    // Mảng các con trỏ hàm
+    // Array of function pointers
     int (*ops[])(int, int) = {max, min, sum};
     const char *names[] = {"max", "min", "sum"};
     for (int i = 0; i < 3; i++)

@@ -1,11 +1,11 @@
 CC=gcc
 CFLAGS=-Wall
 
-# Liên kết (link) các file object thành chương trình
+# Link the object files into the program
 main: main.o math_utils.o
 	$(CC) main.o math_utils.o -o main
 
-# Biên dịch (compile) từng file nguồn thành file object
+# Compile each source file into an object file
 main.o: main.c math_utils.h
 	$(CC) $(CFLAGS) -c main.c
 

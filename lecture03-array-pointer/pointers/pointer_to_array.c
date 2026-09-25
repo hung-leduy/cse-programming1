@@ -2,18 +2,18 @@
 
 int main() {
     int scores[5] = {10, 20, 30, 40, 50};
-    int *p_scores = scores; // tên mảng chính là con trỏ tới phần tử đầu tiên
+    int *p_scores = scores; // an array name is a pointer to its first element
 
     printf("scores     = %p\n", (void *)scores);
     printf("&scores[0] = %p\n", (void *)&scores[0]);
 
-    // Truy cập bằng chỉ số với con trỏ giống như với mảng
+    // Pointers can be subscripted just like arrays
     printf("p_scores[2] = %d, *(p_scores + 2) = %d\n", p_scores[2], *(p_scores + 2));
 
-    // Tên mảng là "hằng" con trỏ: không thể gán lại
-    // scores = p_scores;  // lỗi biên dịch
-    // scores++;           // lỗi biên dịch
-    p_scores++; // nhưng biến con trỏ thì được
+    // An array name is a "constant" pointer: it cannot be reassigned
+    // scores = p_scores;  // compile error
+    // scores++;           // compile error
+    p_scores++; // but a pointer variable can
     printf("*p_scores = %d\n", *p_scores); // 20
     return 0;
 }

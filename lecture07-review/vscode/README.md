@@ -1,17 +1,17 @@
-# Cấu hình VS Code để build và debug C
+# Configuring VS Code to build and debug C
 
-Chép hai file `tasks.json` và `launch.json` vào thư mục `.vscode/` ở gốc thư mục đang mở trong VS Code.
+Copy `tasks.json` and `launch.json` into the `.vscode/` folder at the root of the folder open in VS Code.
 
-1. Cài extension **C/C++ Extension Pack**.
-2. Build: menu **Terminal > Run Build Task** (`Ctrl+Shift+B`) — biên dịch file đang mở bằng `gcc -g -Wall`.
-3. Debug: đặt breakpoint (click bên trái số dòng), rồi menu **Run > Start Debugging** (`F5`).
-   - Thanh công cụ debug: Continue, Step over, Step into, Step out, Restart, Stop.
-   - Tab **Debug Console**: gõ biểu thức bất kỳ (ví dụ `a[i]`, `*p@5`) để xem giá trị.
-4. Định dạng code: `Ctrl+Shift+P` → **Format Document**.
+1. Install the **C/C++ Extension Pack** extension.
+2. Build: menu **Terminal > Run Build Task** (`Ctrl+Shift+B`) - compiles the current file with `gcc -g -Wall`.
+3. Debug: set a breakpoint (click left of the line number), then menu **Run > Start Debugging** (`F5`).
+   - Debug toolbar: Continue, Step over, Step into, Step out, Restart, Stop.
+   - Tab **Debug Console**: type any expression (e.g. `a[i]`, `*p@5`) to see its value.
+4. Format code: `Ctrl+Shift+P` -> **Format Document**.
 
-Thử với `../multi_array/sample.c`.
+Try it with `../multi_array/sample.c`.
 
-Tham khảo cấu hình cho từng hệ điều hành:
+Configuration guides for each operating system:
 
 - Linux: https://code.visualstudio.com/docs/cpp/config-linux
 - Windows (MinGW): https://code.visualstudio.com/docs/cpp/config-mingw

@@ -1,18 +1,18 @@
 #include <stdio.h>
 
-// Định nghĩa hàm print_hello: đầu vào là chuỗi, đầu ra là int
+// Definition of print_hello: takes a string, returns an int
 int print_hello(const char *name) {
     printf("hello, %s\n", name);
     return 0;
 }
 
-// Hàm không có đầu vào và không trả về giá trị
+// A function with no parameters and no return value
 void print_line(void) {
     printf("------------\n");
 }
 
 int main() {
-    // Một hàm có thể được gọi nhiều lần -> tái sử dụng code
+    // A function can be called many times -> code reuse
     print_hello("world");
     print_line();
     print_hello("student");

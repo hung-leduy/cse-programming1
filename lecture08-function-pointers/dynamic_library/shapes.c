@@ -1,4 +1,4 @@
-// Thư viện động: biên dịch thành libshapes.so
+// Dynamic library: compiled into libshapes.so
 //   gcc -shared -fPIC shapes.c -o libshapes.so
 
 double circle_area(double r) {

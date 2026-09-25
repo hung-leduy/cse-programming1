@@ -1,8 +1,8 @@
-# Biên dịch toàn bộ ví dụ:   make
-# Xoá file đã biên dịch:     make clean
+# Build all examples:        make
+# Remove compiled files:     make clean
 #
-# - Thư mục có Makefile riêng (chương trình nhiều file): gọi make trong thư mục đó
-# - Các file .c còn lại: mỗi file là một chương trình độc lập
+# - Directories with their own Makefile (multi-file programs): run make in that directory
+# - Remaining .c files: each file is a standalone program
 
 CC ?= gcc
 CFLAGS ?= -Wall -Wextra -g

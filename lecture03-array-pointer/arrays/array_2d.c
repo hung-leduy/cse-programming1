@@ -3,10 +3,10 @@
 #define M 3
 #define N 4
 
-// Tìm max theo trục (axis), giống numpy:
-//  axis = 0: max theo cột -> kết quả có N phần tử
-//  axis = 1: max theo hàng -> kết quả có M phần tử
-// Lưu ý: với mảng 2 chiều, kích thước chiều thứ hai phải được chỉ rõ
+// Find the max along an axis, like numpy:
+//  axis = 0: max of each column -> result has N elements
+//  axis = 1: max of each row -> result has M elements
+// Note: for a 2D array, the size of the second dimension must be specified
 void get_max_2d_array(int a[][N], int rows, int axis, int out[]) {
     if (axis == 0) {
         for (int j = 0; j < N; j++) {
@@ -29,7 +29,7 @@ int main() {
     int board[10][10];
     board[0][0] = 13;
     board[9][9] = 13;
-    // board[0] có kiểu int[10]: mảng 2 chiều là mảng của các mảng
+    // board[0] has type int[10]: a 2D array is an array of arrays
     printf("sizeof(board) = %zu, sizeof(board[0]) = %zu\n", sizeof(board), sizeof(board[0]));
 
     int a[M][N] = {

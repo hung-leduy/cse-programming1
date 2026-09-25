@@ -1,23 +1,23 @@
 #include <stdio.h>
 
 int main() {
-    // Khai báo con trỏ
+    // Declare pointers
     int *int_pointer;
     float *float_pointer;
     char *char_pointer;
-    void *pointer;      // con trỏ tổng quát
-    int_pointer = NULL; // con trỏ rỗng
+    void *pointer;      // generic pointer
+    int_pointer = NULL; // null pointer
     float_pointer = NULL;
     char_pointer = NULL;
     pointer = NULL;
     printf("%p %p %p %p\n", (void *)int_pointer, (void *)float_pointer, (void *)char_pointer, pointer);
 
     int x = 10;
-    int_pointer = &x; // tham chiếu (referencing): lấy địa chỉ của x
-    printf("địa chỉ của x = %p\n", (void *)int_pointer);
-    printf("*int_pointer  = %d\n", *int_pointer); // giải tham chiếu (dereferencing)
+    int_pointer = &x; // referencing: take the address of x
+    printf("address of x = %p\n", (void *)int_pointer);
+    printf("*int_pointer  = %d\n", *int_pointer); // dereferencing
 
-    *int_pointer = 20; // thay đổi x thông qua con trỏ
+    *int_pointer = 20; // change x through the pointer
     printf("x = %d\n", x);
     return 0;
 }

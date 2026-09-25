@@ -1,11 +1,11 @@
 #include <stdio.h>
 
-// Biên dịch bản Debug:   gcc -DDEBUG debug_release.c -o debug_release
-// Biên dịch bản Release: gcc debug_release.c -o debug_release
+// Debug build:   gcc -DDEBUG debug_release.c -o debug_release
+// Release build: gcc debug_release.c -o debug_release
 #ifdef DEBUG
 #define LOG(msg, a, b) printf("[DEBUG] %s: %d, %d\n", msg, a, b)
 #else
-#define LOG(msg, a, b) // bản Release: không làm gì
+#define LOG(msg, a, b) // Release build: does nothing
 #endif
 
 int do_something(int a, int b) {

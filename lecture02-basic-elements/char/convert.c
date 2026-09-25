@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-// Bài tập 1: chuyển ký tự chữ số thành số nguyên
+// Exercise 1: convert a digit character to an integer
 int convert(char var) {
     return var - '0';
 }

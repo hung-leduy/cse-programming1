@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-// Nạp hàm từ thư viện động lúc chạy (runtime) và gọi qua con trỏ hàm
+// Load functions from a dynamic library at runtime and call them through function pointers
 #ifdef _WIN32
 #include <windows.h>
 HINSTANCE handle = NULL;
@@ -22,15 +22,15 @@ typedef double (*area_fn)(double);
 int main() {
     handle = OPEN_LIB(LIB_NAME);
     if (handle == NULL) {
-        printf("Không nạp được %s\n", LIB_NAME);
+        printf("Cannot load %s\n", LIB_NAME);
         return 1;
     }
 
-    // Khai báo con trỏ hàm và lấy địa chỉ hàm theo tên
+    // Declare a function pointer and look up the function's address by name
     area_fn circle_area = (area_fn)GET_FUNC(handle, "circle_area");
     area_fn square_area = (area_fn)GET_FUNC(handle, "square_area");
     if (circle_area == NULL || square_area == NULL) {
-        printf("Không tìm thấy hàm\n");
+        printf("Function not found\n");
         CLOSE_LIB(handle);
         return 1;
     }

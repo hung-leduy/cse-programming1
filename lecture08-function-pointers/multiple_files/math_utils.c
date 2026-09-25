@@ -1,6 +1,6 @@
 #include "math_utils.h"
 
-// Cài đặt (definition)
+// Definitions
 int gcd(int a, int b) {
     while (b != 0) {
         int t = a % b;

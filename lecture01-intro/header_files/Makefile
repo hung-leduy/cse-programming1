@@ -3,11 +3,11 @@ CFLAGS=-Wall
 
 all: hello_world hello_student
 
-# Bước 1: biên dịch (compile) từng file .c thành file object .o
+# Step 1: compile each .c file into an object file .o
 %.o: %.c hello.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Bước 2: liên kết (link) các file .o thành file thực thi
+# Step 2: link the .o files into an executable
 hello_world: hello_world.o hello.o
 	$(CC) $^ -o $@
 

@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-// Tự cài đặt một số hàm xử lý chuỗi để hiểu cách hoạt động
+// Our own implementations of some string functions, to see how they work
 
 int my_strlen(const char *s) {
     int n = 0;

@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include "hello.h" // include file header tự định nghĩa
+#include "hello.h" // include our own header file
 
-// Định nghĩa (definition) của hàm print_hello
+// Definition of print_hello
 int print_hello(const char *name) {
     printf("hello, %s\n", name);
     return 0;

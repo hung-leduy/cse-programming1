@@ -1,18 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Biểu diễn mảng nhiều chiều bằng:
-//  - mảng 1 chiều cho dữ liệu đã "làm phẳng" (flattened)
-//  - mảng 1 chiều cho hình dạng (shape)
-// Giống numpy: np.arange(12).reshape(3, 2, 2)
+// Represent a multi-dimensional array with:
+//  - a 1D array for the flattened data
+//  - a 1D array for the shape
+// Like numpy: np.arange(12).reshape(3, 2, 2)
 struct MultiArray {
-    int *data;  // mảng 1 chiều chứa dữ liệu
-    int *shape; // kích thước từng chiều
-    int n_dims; // số chiều
+    int *data;  // 1D array holding the data
+    int *shape; // size of each dimension
+    int n_dims; // number of dimensions
 };
 
-// Chuyển chỉ số nhiều chiều thành chỉ số của mảng phẳng
-// Ví dụ shape = [3, 4]: array[i][j] -> data[i * 4 + j]
+// Convert a multi-dimensional index into a flat-array index
+// Example: shape = [3, 4]: array[i][j] -> data[i * 4 + j]
 int get_flat_index(struct MultiArray *array, int *indexes) {
     int flat_index = 0;
     int cumul_shape = 1;
@@ -27,15 +27,15 @@ int get_data(struct MultiArray *array, int *indexes) {
     return array->data[get_flat_index(array, indexes)];
 }
 
-// Duyệt mọi phần tử theo kiểu "đếm" (như đồng hồ đo km):
-// tăng chỉ số cuối, khi tràn thì đặt lại 0 và nhớ sang chiều trước
+// Visit every element by "counting" (like an odometer):
+// increment the last index; on overflow reset it to 0 and carry into the previous dimension
 int next_index(int *indexes, int *shape, int n_dims) {
     for (int i = n_dims - 1; i >= 0; i--) {
         if (++indexes[i] < shape[i])
             return 1;
         indexes[i] = 0;
     }
-    return 0; // đã duyệt hết
+    return 0; // all elements visited
 }
 
 int main() {

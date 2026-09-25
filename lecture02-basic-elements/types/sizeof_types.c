@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-// Kích thước (byte) của các kiểu dữ liệu cơ bản: short <= int <= long
+// Size (in bytes) of the basic data types: short <= int <= long
 int main() {
     printf("char:   %zu byte\n", sizeof(char));
     printf("short:  %zu byte\n", sizeof(short));

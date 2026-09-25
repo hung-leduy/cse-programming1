@@ -5,7 +5,7 @@ int max(int a, int b) { return a > b ? a : b; }
 int min(int a, int b) { return a < b ? a : b; }
 int sum(int a, int b) { return a + b; }
 
-// Con trỏ hàm làm tham số: "rút gọn" mảng 2 chiều N x M bằng hàm func
+// Function pointer as a parameter: "reduce" an N x M 2D array with func
 int reduce(int **arr, int N, int M, int (*func)(int, int)) {
     int result = 0;
     for (int i = 0; i < N; i++) {

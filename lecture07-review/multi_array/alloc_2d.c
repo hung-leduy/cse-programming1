@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Cấp phát mảng 2 chiều rows x cols bằng con trỏ int **
+// Allocate a rows x cols 2D array using an int ** pointer
 int **alloc_2d(int rows, int cols) {
-    int **a = malloc(rows * sizeof(int *)); // mảng các con trỏ hàng
+    int **a = malloc(rows * sizeof(int *)); // array of row pointers
     for (int i = 0; i < rows; i++)
-        a[i] = malloc(cols * sizeof(int));  // mỗi hàng là một mảng int
+        a[i] = malloc(cols * sizeof(int));  // each row is an int array
     return a;
 }
 
-// Giải phóng: từng hàng trước, mảng con trỏ sau
+// Free: each row first, then the array of pointers
 void free_2d(int **a, int rows) {
     for (int i = 0; i < rows; i++)
         free(a[i]);
@@ -22,7 +22,7 @@ int main() {
 
     for (int i = 0; i < rows; i++)
         for (int j = 0; j < cols; j++)
-            a[i][j] = i * cols + j; // truy cập như mảng 2 chiều thường
+            a[i][j] = i * cols + j; // accessed like a regular 2D array
 
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++)

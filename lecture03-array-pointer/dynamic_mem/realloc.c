@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Mảng động tự tăng kích thước khi đầy
+// Dynamic array that grows when full
 int main() {
     int capacity = 2, size = 0;
     int *arr = malloc(capacity * sizeof(int));
@@ -10,7 +10,7 @@ int main() {
         if (size == capacity) {
             capacity *= 2;
             int *tmp = realloc(arr, capacity * sizeof(int));
-            if (tmp == NULL) { // realloc lỗi: arr cũ vẫn còn, phải free
+            if (tmp == NULL) { // realloc failed: old arr is still valid and must be freed
                 free(arr);
                 return 1;
             }

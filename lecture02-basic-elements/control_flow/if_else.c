@@ -14,8 +14,8 @@ void classify(int score) {
 
 int main() {
     int x = 7;
-    if (x % 2 == 0) printf("%d là số chẵn\n", x); // dạng đơn giản không có {}
-    if (x % 2 != 0) printf("%d là số lẻ\n", x);
+    if (x % 2 == 0) printf("%d is even\n", x); // short form without {}
+    if (x % 2 != 0) printf("%d is odd\n", x);
 
     classify(95);
     classify(75);

@@ -1,12 +1,12 @@
 #include <stdio.h>
 
-// In bảng chuyển đổi nhiệt độ Fahrenheit -> Celsius (K&R, mục 1.2)
+// Print a Fahrenheit -> Celsius table (K&R, section 1.2)
 int main() {
-    int fahr, celsius; // khai báo biến
+    int fahr, celsius; // variable declarations
 
     fahr = 0;
     while (fahr <= 300) {
-        celsius = 5 * (fahr - 32) / 9; // phép chia số nguyên
+        celsius = 5 * (fahr - 32) / 9; // integer division
         printf("%d\t%d\n", fahr, celsius);
         fahr = fahr + 20;
     }

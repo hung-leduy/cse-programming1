@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-// Tích vô hướng của hai vector: sum(a[i] * b[i])
+// Inner (dot) product of two vectors: sum(a[i] * b[i])
 double inner_product(double a[], double b[], int n) {
     double sum = 0;
     for (int i = 0; i < n; i++)

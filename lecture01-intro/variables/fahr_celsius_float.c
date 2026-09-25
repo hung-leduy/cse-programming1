@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-// Phiên bản dùng số thực: kết quả chính xác hơn
+// Floating-point version: more accurate results
 int main() {
     float fahr, celsius;
 
