@@ -1,4 +1,4 @@
-// Lab 2 - Debugging exercise
+// Lab 2 — Debugging exercise
 // This program compiles but produces WRONG results. There are 4 bugs.
 // Use gdb or VS Code (breakpoints, step, watch) to find them; do NOT add printf.
 //

@@ -1,4 +1,4 @@
-// Lab 2 - Arrays and Strings
+// Lab 2 — Arrays and Strings
 // Compile and run:  gcc -Wall -Wextra -g lab02.c -o lab02 && ./lab02
 // Task: implement the functions marked TODO until all tests PASS.
 #include <stdio.h>

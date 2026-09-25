@@ -1,4 +1,4 @@
-// Lab 4 - Student management module: DECLARATIONS (interface)
+// Lab 4 — Student management module: DECLARATIONS (interface)
 // This file is complete; do NOT modify it. The implementation is in student.c.
 #ifndef STUDENT_H
 #define STUDENT_H

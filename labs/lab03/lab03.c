@@ -1,4 +1,4 @@
-// Lab 3 - Pointers and Dynamic Memory
+// Lab 3 — Pointers and Dynamic Memory
 // Compile and run:  gcc -Wall -Wextra -g lab03.c -o lab03 && ./lab03
 // Check memory:     valgrind --leak-check=full ./lab03
 // Task: implement the functions marked TODO until all tests PASS

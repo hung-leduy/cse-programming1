@@ -1,4 +1,4 @@
-// Lab 3 - Valgrind exercise
+// Lab 3 — Valgrind exercise
 // The program prints results that "look correct" but has 4 memory bugs.
 //   gcc -Wall -g leaky.c -o leaky
 //   valgrind --leak-check=full --track-origins=yes ./leaky

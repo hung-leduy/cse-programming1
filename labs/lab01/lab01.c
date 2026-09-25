@@ -1,4 +1,4 @@
-// Lab 1 - C Fundamentals
+// Lab 1 — C Fundamentals
 // Compile and run:  gcc -Wall -Wextra lab01.c -o lab01 && ./lab01
 // Task: implement the functions marked TODO until all tests PASS.
 #include <stdio.h>

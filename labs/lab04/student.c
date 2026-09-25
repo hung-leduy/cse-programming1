@@ -1,4 +1,4 @@
-// Lab 4 - Student management module: IMPLEMENTATION
+// Lab 4 — Student management module: IMPLEMENTATION
 // Task: implement the functions marked TODO. Run "make test" to check.
 #include <stdlib.h>
 #include <string.h>

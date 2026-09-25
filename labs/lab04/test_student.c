@@ -1,4 +1,4 @@
-// Lab 4 - Tests for the student module (no need to modify)
+// Lab 4 — Tests for the student module (no need to modify)
 //   make test       run the tests
 //   make debug      run the tests with DEBUG_PRINT enabled
 //   make valgrind   check for memory leaks
