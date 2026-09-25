@@ -1,87 +1,87 @@
-# Lab 1 — Nền tảng C: biên dịch, kiểu dữ liệu, toán tử, rẽ nhánh, vòng lặp, hàm
+# Lab 1 — C Fundamentals: compilation, data types, operators, branching, loops, functions
 
-> **Buổi 1** · Liên quan: Lecture 1 (Course introduction), Lecture 2 (Basic elements)
-> **Repo tham khảo:** [bonigarcia/c-programming](https://github.com/bonigarcia/c-programming) — thư mục `hello_world`, `types`, `variables`, `operators`, `boolean`, `control_flow`, `functions`, `io`, `top-down`
-> **Code khởi đầu:** [`lab01/lab01.c`](lab01/lab01.c)
+> **Session 1** · Related: Lecture 1 (Course introduction), Lecture 2 (Basic elements)
+> **Reference repo:** [bonigarcia/c-programming](https://github.com/bonigarcia/c-programming) — folders `hello_world`, `types`, `variables`, `operators`, `boolean`, `control_flow`, `functions`, `io`, `top-down`
+> **Starter code:** [`lab01/lab01.c`](lab01/lab01.c)
 
-## Mục tiêu
+## Objectives
 
-- Hiểu 4 bước biên dịch: tiền xử lý → biên dịch → hợp dịch → liên kết.
-- Nắm kích thước, phạm vi, ép kiểu của các kiểu dữ liệu cơ bản.
-- Dùng đúng toán tử số học, quan hệ, logic, `++`/`--`, toán tử 3 ngôi.
-- Viết được `if/else`, `switch`, `for`, `while`, `do-while`, `break`, `continue`.
-- Tách bài toán thành các hàm nhỏ (chia để trị, thiết kế top-down).
-- Đọc dữ liệu từ bàn phím bằng `scanf`, nhận tham số dòng lệnh `argc/argv`.
+- Understand the 4 stages of compilation: preprocessing → compiling → assembling → linking.
+- Know the sizes, ranges, and type casting of the basic data types.
+- Use arithmetic, relational, and logical operators, `++`/`--`, and the ternary operator correctly.
+- Write `if/else`, `switch`, `for`, `while`, `do-while`, `break`, `continue`.
+- Break a problem down into small functions (divide and conquer, top-down design).
+- Read input from the keyboard with `scanf` and take command-line arguments with `argc/argv`.
 
-## Phân bổ thời gian gợi ý (≈ 3 giờ)
+## Suggested timing (≈ 3 hours)
 
-| Thời gian | Nội dung |
+| Time | Content |
 |---|---|
-| 0:00 – 0:30 | Kiểm tra Lab 0, clone repo, Phần 1 (quá trình biên dịch) |
-| 0:30 – 1:00 | Phần 2 (kiểu dữ liệu), Phần 3 (toán tử) |
-| 1:00 – 1:30 | Phần 4 (điều khiển), Phần 5 (hàm, phạm vi biến) |
-| 1:30 – 2:45 | Bài tập 1.1 – 1.8 trong `lab01.c` |
-| 2:45 – 3:00 | Chữa bài, giới thiệu bài tập về nhà 1.9, 1.10 |
+| 0:00 – 0:30 | Check Lab 0, clone the repo, Part 1 (the compilation process) |
+| 0:30 – 1:00 | Part 2 (data types), Part 3 (operators) |
+| 1:00 – 1:30 | Part 4 (control flow), Part 5 (functions, variable scope) |
+| 1:30 – 2:45 | Exercises 1.1 – 1.8 in `lab01.c` |
+| 2:45 – 3:00 | Review solutions, introduce homework 1.9, 1.10 |
 
-## Chuẩn bị
+## Preparation
 
 ```bash
 cd ~/prog1
-git clone https://github.com/bonigarcia/c-programming.git   # nếu chưa có
+git clone https://github.com/bonigarcia/c-programming.git   # if you don't have it yet
 cd c-programming
 ```
 
-> **Quy tắc cho cả buổi:** trước khi chạy mỗi ví dụ, **dự đoán kết quả** và ghi ra giấy. Sau khi chạy, so sánh và giải thích chỗ khác biệt.
-> Luôn biên dịch với `-Wall` và **đọc hết cảnh báo** — cảnh báo thường là lỗi thật.
+> **Rule for the whole session:** before running each example, **predict the output** and write it down. After running it, compare and explain any differences.
+> Always compile with `-Wall` and **read every warning** — warnings are often real bugs.
 
 ---
 
-## Phần 1. Quá trình biên dịch (≈ 20 phút)
+## Part 1. The compilation process (≈ 20 minutes)
 
-Ví dụ: [`hello_world/hello_macro.c`](https://github.com/bonigarcia/c-programming/blob/master/hello_world/hello_macro.c)
+Example: [`hello_world/hello_macro.c`](https://github.com/bonigarcia/c-programming/blob/master/hello_world/hello_macro.c)
 
 ```bash
 cd hello_world
-gcc -E hello_macro.c -o hello_macro.i   # 1. tiền xử lý: xử lý #include, #define
-gcc -S hello_macro.i -o hello_macro.s   # 2. biên dịch: C -> hợp ngữ (assembly)
-gcc -c hello_macro.s -o hello_macro.o   # 3. hợp dịch: assembly -> mã máy
-gcc hello_macro.o -o hello_macro        # 4. liên kết: + thư viện chuẩn -> file thực thi
+gcc -E hello_macro.c -o hello_macro.i   # 1. preprocess: handle #include, #define
+gcc -S hello_macro.i -o hello_macro.s   # 2. compile: C -> assembly
+gcc -c hello_macro.s -o hello_macro.o   # 3. assemble: assembly -> machine code
+gcc hello_macro.o -o hello_macro        # 4. link: + standard library -> executable
 ./hello_macro
 ```
 
-**Câu hỏi:**
+**Questions:**
 
-1. Mở `hello_macro.i` (dùng `tail -n 20`). Dòng `return OK;` đã trở thành gì? Vì sao file `.i` dài hàng trăm dòng?
-2. Mở `hello_macro.s`, tìm dòng gọi `printf` (hoặc `puts`). Vì sao trình biên dịch có thể thay `printf` bằng `puts`?
-3. Chạy `ls -l hello_macro.o hello_macro`. Vì sao file thực thi lớn hơn file `.o`?
+1. Open `hello_macro.i` (use `tail -n 20`). What has the line `return OK;` become? Why is the `.i` file hundreds of lines long?
+2. Open `hello_macro.s` and find the line that calls `printf` (or `puts`). Why can the compiler replace `printf` with `puts`?
+3. Run `ls -l hello_macro.o hello_macro`. Why is the executable larger than the `.o` file?
 
-### Tham số dòng lệnh
+### Command-line arguments
 
-Ví dụ: [`hello_world/hello_args.c`](https://github.com/bonigarcia/c-programming/blob/master/hello_world/hello_args.c)
+Example: [`hello_world/hello_args.c`](https://github.com/bonigarcia/c-programming/blob/master/hello_world/hello_args.c)
 
 ```bash
 gcc -Wall hello_args.c -o hello_args
 ./hello_args
 ./hello_args An
 ./hello_args "Nguyen Van An"
-echo $?        # mã trả về (return) của chương trình vừa chạy
+echo $?        # exit (return) code of the program that just ran
 ```
 
-**Câu hỏi:** `argc` bằng bao nhiêu trong mỗi lần chạy? `argv[0]` là gì? Vì sao chương trình dùng `fprintf(stderr, ...)` và `return 1` khi thiếu tham số?
+**Questions:** What is `argc` in each run? What is `argv[0]`? Why does the program use `fprintf(stderr, ...)` and `return 1` when the argument is missing?
 
 ---
 
-## Phần 2. Kiểu dữ liệu (≈ 15 phút)
+## Part 2. Data types (≈ 15 minutes)
 
-| File | Dự đoán / Câu hỏi |
+| File | Prediction / Question |
 |---|---|
-| [`types/sizeof_1.c`](https://github.com/bonigarcia/c-programming/blob/master/types/sizeof_1.c), [`sizeof_2.c`](https://github.com/bonigarcia/c-programming/blob/master/types/sizeof_2.c) | So sánh với bảng "short ≤ int ≤ long" trong Lecture 2. `long` trên máy bạn là 4 hay 8 byte? |
-| [`types/ranges.c`](https://github.com/bonigarcia/c-programming/blob/master/types/ranges.c) | Giá trị lớn nhất của `int`? Điều gì xảy ra khi cộng 1 vào `INT_MAX`? (tự viết thử) |
-| [`types/casting.c`](https://github.com/bonigarcia/c-programming/blob/master/types/casting.c) | Khi nào phải ép kiểu tường minh để không mất phần thập phân? |
-| [`types/promotion_1.c`](https://github.com/bonigarcia/c-programming/blob/master/types/promotion_1.c), [`promotion_2.c`](https://github.com/bonigarcia/c-programming/blob/master/types/promotion_2.c) | `1 + 'A'` bằng bao nhiêu? `char c = 65` in ra `%c` là gì? |
-| [`boolean/bool_1.c`](https://github.com/bonigarcia/c-programming/blob/master/boolean/bool_1.c) | `true`/`false` thực chất là số mấy? |
+| [`types/sizeof_1.c`](https://github.com/bonigarcia/c-programming/blob/master/types/sizeof_1.c), [`sizeof_2.c`](https://github.com/bonigarcia/c-programming/blob/master/types/sizeof_2.c) | Compare with the "short ≤ int ≤ long" table in Lecture 2. Is `long` 4 or 8 bytes on your machine? |
+| [`types/ranges.c`](https://github.com/bonigarcia/c-programming/blob/master/types/ranges.c) | What is the largest `int` value? What happens when you add 1 to `INT_MAX`? (try it yourself) |
+| [`types/casting.c`](https://github.com/bonigarcia/c-programming/blob/master/types/casting.c) | When do you need an explicit cast to avoid losing the fractional part? |
+| [`types/promotion_1.c`](https://github.com/bonigarcia/c-programming/blob/master/types/promotion_1.c), [`promotion_2.c`](https://github.com/bonigarcia/c-programming/blob/master/types/promotion_2.c) | What is `1 + 'A'`? What does `char c = 65` print with `%c`? |
+| [`boolean/bool_1.c`](https://github.com/bonigarcia/c-programming/blob/master/boolean/bool_1.c) | What numbers are `true`/`false` really? |
 
-**Thử thêm** (ví dụ trong Lecture 2):
+**Try this too** (example from Lecture 2):
 
 ```c
 char variable = 'a';
@@ -91,16 +91,16 @@ float v2 = (float)variable / 5;   // = ?
 
 ---
 
-## Phần 3. Toán tử (≈ 15 phút)
+## Part 3. Operators (≈ 15 minutes)
 
-| File | Dự đoán / Câu hỏi |
+| File | Prediction / Question |
 |---|---|
-| [`operators/aritmetic.c`](https://github.com/bonigarcia/c-programming/blob/master/operators/aritmetic.c) | `7 / 2`, `7 % 2`, `7.0 / 2` bằng bao nhiêu? |
-| [`operators/relational.c`](https://github.com/bonigarcia/c-programming/blob/master/operators/relational.c), [`logical.c`](https://github.com/bonigarcia/c-programming/blob/master/operators/logical.c) | Kết quả của phép so sánh có kiểu gì? |
-| [`operators/ternary.c`](https://github.com/bonigarcia/c-programming/blob/master/operators/ternary.c) | Viết lại bằng `if/else`. |
-| [`operators/bitwise.c`](https://github.com/bonigarcia/c-programming/blob/master/operators/bitwise.c) | (Nâng cao) `x & 1` dùng để làm gì? |
+| [`operators/aritmetic.c`](https://github.com/bonigarcia/c-programming/blob/master/operators/aritmetic.c) | What are `7 / 2`, `7 % 2`, `7.0 / 2`? |
+| [`operators/relational.c`](https://github.com/bonigarcia/c-programming/blob/master/operators/relational.c), [`logical.c`](https://github.com/bonigarcia/c-programming/blob/master/operators/logical.c) | What type does a comparison produce? |
+| [`operators/ternary.c`](https://github.com/bonigarcia/c-programming/blob/master/operators/ternary.c) | Rewrite it using `if/else`. |
+| [`operators/bitwise.c`](https://github.com/bonigarcia/c-programming/blob/master/operators/bitwise.c) | (Advanced) What is `x & 1` used for? |
 
-**Quiz `++`** (Lecture 1) — dự đoán rồi kiểm tra:
+**`++` quiz** (Lecture 1) — predict, then check:
 
 ```c
 int i = 42;
@@ -108,72 +108,72 @@ int j = (i++ + 10);   // j = ?, i = ?
 int k = (++i + 10);   // k = ?, i = ?
 ```
 
-**Lỗi hay gặp:** viết `if (x = 5)` thay vì `if (x == 5)`. Thử biên dịch với `-Wall` và đọc cảnh báo.
+**Common mistake:** writing `if (x = 5)` instead of `if (x == 5)`. Compile with `-Wall` and read the warning.
 
 ---
 
-## Phần 4. Cấu trúc điều khiển (≈ 15 phút)
+## Part 4. Control flow (≈ 15 minutes)
 
-Chạy và đọc: [`control_flow/for.c`](https://github.com/bonigarcia/c-programming/blob/master/control_flow/for.c), [`break.c`](https://github.com/bonigarcia/c-programming/blob/master/control_flow/break.c), [`continue.c`](https://github.com/bonigarcia/c-programming/blob/master/control_flow/continue.c), [`switch.c`](https://github.com/bonigarcia/c-programming/blob/master/control_flow/switch.c)
+Run and read: [`control_flow/for.c`](https://github.com/bonigarcia/c-programming/blob/master/control_flow/for.c), [`break.c`](https://github.com/bonigarcia/c-programming/blob/master/control_flow/break.c), [`continue.c`](https://github.com/bonigarcia/c-programming/blob/master/control_flow/continue.c), [`switch.c`](https://github.com/bonigarcia/c-programming/blob/master/control_flow/switch.c)
 
-**Câu hỏi:**
+**Questions:**
 
-1. Trong `switch.c`, xoá một lệnh `break`. Chương trình in ra gì? Hiện tượng này gọi là gì (fall-through)? Khi nào ta *cố ý* dùng nó (gợi ý: gộp `case 3:` và `case 4:` trong Lecture 3)?
-2. `switch.c` đã gộp các tháng có cùng số ngày — bài tập 1.8 sẽ mở rộng để xử lý năm nhuận.
-3. Viết lại vòng `for` trong `for.c` bằng `while` và bằng `do-while`. Khác biệt của `do-while` là gì?
+1. In `switch.c`, delete one `break` statement. What does the program print? What is this behavior called (fall-through)? When would we use it *on purpose* (hint: combining `case 3:` and `case 4:` in Lecture 3)?
+2. `switch.c` already groups months with the same number of days — exercise 1.8 extends this to handle leap years.
+3. Rewrite the `for` loop in `for.c` using `while` and using `do-while`. How is `do-while` different?
 
 ---
 
-## Phần 5. Hàm và phạm vi biến (≈ 15 phút)
+## Part 5. Functions and variable scope (≈ 15 minutes)
 
-| File | Câu hỏi |
+| File | Question |
 |---|---|
-| [`functions/functions_1.c`](https://github.com/bonigarcia/c-programming/blob/master/functions/functions_1.c) | Hàm định nghĩa trước `main` |
-| [`functions/functions_2.c`](https://github.com/bonigarcia/c-programming/blob/master/functions/functions_2.c) | Biên dịch với `-Wall`: cảnh báo gì (gcc ≥ 14 báo **lỗi**)? Vì sao? |
-| [`functions/functions_3.c`](https://github.com/bonigarcia/c-programming/blob/master/functions/functions_3.c) | Khai báo (prototype) sửa lỗi trên thế nào? Liên hệ với file header `.h` trong Lecture 1. |
-| [`variables/scopes_1.c`](https://github.com/bonigarcia/c-programming/blob/master/variables/scopes_1.c) | Vì sao không biên dịch được? Sửa lại. |
-| [`variables/static.c`](https://github.com/bonigarcia/c-programming/blob/master/variables/static.c) | Dự đoán 10 dòng in ra. `static` khác biến cục bộ thường ở đâu? |
-| [`io/scanf_1.c`](https://github.com/bonigarcia/c-programming/blob/master/io/scanf_1.c) | Nhập `Nguyen Van An`. Vì sao chỉ in ra `Nguyen`? |
-| [`top-down/main.c`](https://github.com/bonigarcia/c-programming/blob/master/top-down/main.c) | Thiết kế top-down: viết `main` với các hàm "rỗng" trước, cài đặt chi tiết sau. |
+| [`functions/functions_1.c`](https://github.com/bonigarcia/c-programming/blob/master/functions/functions_1.c) | Function defined before `main` |
+| [`functions/functions_2.c`](https://github.com/bonigarcia/c-programming/blob/master/functions/functions_2.c) | Compile with `-Wall`: what warning do you get (gcc ≥ 14 reports an **error**)? Why? |
+| [`functions/functions_3.c`](https://github.com/bonigarcia/c-programming/blob/master/functions/functions_3.c) | How does a declaration (prototype) fix the problem above? Relate this to `.h` header files in Lecture 1. |
+| [`variables/scopes_1.c`](https://github.com/bonigarcia/c-programming/blob/master/variables/scopes_1.c) | Why doesn't it compile? Fix it. |
+| [`variables/static.c`](https://github.com/bonigarcia/c-programming/blob/master/variables/static.c) | Predict the 10 lines printed. How is a `static` variable different from an ordinary local variable? |
+| [`io/scanf_1.c`](https://github.com/bonigarcia/c-programming/blob/master/io/scanf_1.c) | Enter `Nguyen Van An`. Why does it print only `Nguyen`? |
+| [`top-down/main.c`](https://github.com/bonigarcia/c-programming/blob/master/top-down/main.c) | Top-down design: write `main` with "empty" functions first, then fill in the details. |
 
 ---
 
-## Phần 6. Bài tập
+## Part 6. Exercises
 
-Mở [`lab01/lab01.c`](lab01/lab01.c). File đã có sẵn khung các hàm (đánh dấu `TODO`) và hàm `main` tự kiểm tra. Nhiệm vụ: cài đặt các hàm cho đến khi tất cả dòng đều `PASS`.
+Open [`lab01/lab01.c`](lab01/lab01.c). The file already contains function skeletons (marked `TODO`) and a self-checking `main`. Your task: implement the functions until every line shows `PASS`.
 
 ```bash
 cd ~/prog1/cse-programming1/labs/lab01
 gcc -Wall -Wextra lab01.c -o lab01 && ./lab01
 ```
 
-| # | Hàm | Mô tả |
+| # | Function | Description |
 |---|---|---|
-| 1.1 | `int add(int a, int b)` | Tổng hai số (khởi động) |
-| 1.2 | `int sum_digits(int n)` | Tổng các chữ số: `sum_digits(1234) = 10`. Xử lý cả số âm. |
-| 1.3 | `long factorial(int n)` | n! bằng **vòng lặp** |
-| 1.4 | `long fib_recursive(int n)`, `long fib_loop(int n)` | Fibonacci hai cách. Đo thời gian với n = 40: `time ./lab01` (tạm sửa main). Giải thích. |
-| 1.5 | `int is_prime(int n)` | Trả về 1 nếu n là số nguyên tố |
-| 1.6 | `int gcd(int a, int b)` | Ước chung lớn nhất (thuật toán Euclid) |
-| 1.7 | `int is_leap_year(int y)` | Năm nhuận: chia hết cho 4 và không chia hết cho 100, hoặc chia hết cho 400 |
-| 1.8 | `int days_in_month(int month, int year)` | **Dùng `switch`**, gộp các `case` cùng số ngày; trả về 0 nếu tháng không hợp lệ |
+| 1.1 | `int add(int a, int b)` | Sum of two numbers (warm-up) |
+| 1.2 | `int sum_digits(int n)` | Sum of the digits: `sum_digits(1234) = 10`. Handle negative numbers too. |
+| 1.3 | `long factorial(int n)` | n! using a **loop** |
+| 1.4 | `long fib_recursive(int n)`, `long fib_loop(int n)` | Fibonacci in two ways. Time it with n = 40: `time ./lab01` (temporarily edit main). Explain the difference. |
+| 1.5 | `int is_prime(int n)` | Return 1 if n is prime |
+| 1.6 | `int gcd(int a, int b)` | Greatest common divisor (Euclid's algorithm) |
+| 1.7 | `int is_leap_year(int y)` | Leap year: divisible by 4 and not by 100, or divisible by 400 |
+| 1.8 | `int days_in_month(int month, int year)` | **Use `switch`**, grouping `case`s with the same number of days; return 0 for an invalid month |
 
-### Bài tập về nhà
+### Homework
 
-**1.9 — Bảng nhiệt độ** (`lab01/temperature.c`, tự tạo): đọc `lower`, `upper`, `step` bằng `scanf`, in bảng Fahrenheit → Celsius như Lecture 1, dùng `float` và `printf("%3.0f %6.1f\n", ...)`. Kiểm tra dữ liệu nhập hợp lệ (`step > 0`, `lower <= upper`).
+**1.9 — Temperature table** (`lab01/temperature.c`, create it yourself): read `lower`, `upper`, `step` with `scanf` and print a Fahrenheit → Celsius table as in Lecture 1, using `float` and `printf("%3.0f %6.1f\n", ...)`. Validate the input (`step > 0`, `lower <= upper`).
 
 ```bash
-echo "0 300 20" | ./temperature     # test nhanh không cần gõ tay
+echo "0 300 20" | ./temperature     # quick test without typing by hand
 ```
 
-**1.10 — Máy tính bỏ túi, thiết kế top-down** (`lab01/calculator.c`, tự tạo): dựa theo [`top-down/main.c`](https://github.com/bonigarcia/c-programming/blob/master/top-down/main.c), hiện menu `1. Cộng 2. Trừ 3. Nhân 4. Chia 5. Luỹ thừa 0. Thoát`, lặp tới khi chọn 0. Mỗi chức năng là một hàm riêng; chia cho 0 phải báo lỗi.
+**1.10 — Pocket calculator, top-down design** (`lab01/calculator.c`, create it yourself): based on [`top-down/main.c`](https://github.com/bonigarcia/c-programming/blob/master/top-down/main.c), show the menu `1. Add 2. Subtract 3. Multiply 4. Divide 5. Power 0. Exit` and repeat until the user chooses 0. Each operation is a separate function; division by zero must report an error.
 
-## Nộp bài
+## Submission
 
-- `labs/lab01/lab01.c` (tất cả `PASS`), `temperature.c`, `calculator.c`
-- Nếu dùng GitHub: commit và push lên bản fork; nếu không: nén thư mục `lab01` và nộp theo hướng dẫn của giảng viên.
+- `labs/lab01/lab01.c` (all `PASS`), `temperature.c`, `calculator.c`
+- If you use GitHub: commit and push to your fork; otherwise: zip the `lab01` folder and submit it as instructed by your lecturer.
 
-## Tham khảo thêm
+## Further reading
 
-- K&R, chương 1–3; *Essential C*, mục 1–2
-- Code ví dụ trong repo: [`lecture01-intro/`](../lecture01-intro), [`lecture02-basic-elements/`](../lecture02-basic-elements)
+- K&R, chapters 1–3; *Essential C*, sections 1–2
+- Example code in this repo: [`lecture01-intro/`](../lecture01-intro), [`lecture02-basic-elements/`](../lecture02-basic-elements)

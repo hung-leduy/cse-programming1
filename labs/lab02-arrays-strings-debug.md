@@ -1,133 +1,133 @@
-# Lab 2 — Mảng, chuỗi và gỡ lỗi (debug)
+# Lab 2 — Arrays, strings, and debugging
 
-> **Buổi 2** · Liên quan: Lecture 3 (Array), Lecture 7 (IDE, debug), Lecture 8 (String, `#ifdef DEBUG`)
-> **Repo tham khảo:** [bonigarcia/c-programming](https://github.com/bonigarcia/c-programming) — thư mục `arrays`, `strings`, `debug`
-> **Code khởi đầu:** [`lab02/lab02.c`](lab02/lab02.c), [`lab02/buggy.c`](lab02/buggy.c)
+> **Session 2** · Related: Lecture 3 (Array), Lecture 7 (IDE, debug), Lecture 8 (String, `#ifdef DEBUG`)
+> **Reference repo:** [bonigarcia/c-programming](https://github.com/bonigarcia/c-programming) — folders `arrays`, `strings`, `debug`
+> **Starter code:** [`lab02/lab02.c`](lab02/lab02.c), [`lab02/buggy.c`](lab02/buggy.c)
 
-## Mục tiêu
+## Objectives
 
-- Khai báo, khởi tạo, duyệt mảng 1 chiều và 2 chiều; truyền mảng vào hàm.
-- Hiểu chuỗi trong C là mảng `char` kết thúc bằng `'\0'`; dùng các hàm trong `<string.h>`.
-- Debug bằng `printf` có điều kiện (`#ifdef DEBUG`), bằng `gdb` và bằng VS Code (breakpoint, step, watch).
+- Declare, initialize, and traverse 1D and 2D arrays; pass arrays to functions.
+- Understand that a C string is a `char` array terminated by `'\0'`; use the functions in `<string.h>`.
+- Debug with conditional `printf` (`#ifdef DEBUG`), with `gdb`, and with VS Code (breakpoints, stepping, watches).
 
-## Phân bổ thời gian gợi ý (≈ 3 giờ)
+## Suggested timing (≈ 3 hours)
 
-| Thời gian | Nội dung |
+| Time | Content |
 |---|---|
-| 0:00 – 0:25 | Phần 1: mảng |
-| 0:25 – 0:55 | Phần 2: chuỗi |
-| 0:55 – 1:35 | Phần 3: debug với `#ifdef`, gdb, VS Code; sửa `buggy.c` |
-| 1:35 – 2:45 | Bài tập 2.1 – 2.10 trong `lab02.c` |
-| 2:45 – 3:00 | Chữa bài |
+| 0:00 – 0:25 | Part 1: arrays |
+| 0:25 – 0:55 | Part 2: strings |
+| 0:55 – 1:35 | Part 3: debugging with `#ifdef`, gdb, VS Code; fix `buggy.c` |
+| 1:35 – 2:45 | Exercises 2.1 – 2.10 in `lab02.c` |
+| 2:45 – 3:00 | Review solutions |
 
 ---
 
-## Phần 1. Mảng (≈ 25 phút)
+## Part 1. Arrays (≈ 25 minutes)
 
-| File | Câu hỏi |
+| File | Question |
 |---|---|
-| [`arrays/arrays_1.c`](https://github.com/bonigarcia/c-programming/blob/master/arrays/arrays_1.c) | In thêm `array_1[2]` (chưa gán). Kết quả là gì? Có giống nhau mỗi lần chạy không? |
-| [`arrays/arrays_3.c`](https://github.com/bonigarcia/c-programming/blob/master/arrays/arrays_3.c) | Vì sao dùng `#define SIZE` thay vì viết số 4 nhiều lần? |
-| [`arrays/arrays_4.c`](https://github.com/bonigarcia/c-programming/blob/master/arrays/arrays_4.c) | `sizeof(array) / sizeof(array[0])` tính gì? Biên dịch với `-Wall -Wextra`: cảnh báo gì về `int i` và `size_t size`? |
-| [`arrays/arrays_5_error.c`](https://github.com/bonigarcia/c-programming/blob/master/arrays/arrays_5_error.c) → [`arrays_5_fixed.c`](https://github.com/bonigarcia/c-programming/blob/master/arrays/arrays_5_fixed.c) | Vì sao không gán được `array_2 = array_1`? (Lecture 3: "Array names are const") |
-| [`arrays/qsort_1.c`](https://github.com/bonigarcia/c-programming/blob/master/arrays/qsort_1.c) | Sửa để sắp xếp **giảm dần**. (Hàm `compare` là một *con trỏ hàm* — sẽ học kỹ ở Lab 4.) |
+| [`arrays/arrays_1.c`](https://github.com/bonigarcia/c-programming/blob/master/arrays/arrays_1.c) | Also print `array_1[2]` (never assigned). What is the result? Is it the same every run? |
+| [`arrays/arrays_3.c`](https://github.com/bonigarcia/c-programming/blob/master/arrays/arrays_3.c) | Why use `#define SIZE` instead of writing the number 4 several times? |
+| [`arrays/arrays_4.c`](https://github.com/bonigarcia/c-programming/blob/master/arrays/arrays_4.c) | What does `sizeof(array) / sizeof(array[0])` compute? Compile with `-Wall -Wextra`: what warning do you get about `int i` and `size_t size`? |
+| [`arrays/arrays_5_error.c`](https://github.com/bonigarcia/c-programming/blob/master/arrays/arrays_5_error.c) → [`arrays_5_fixed.c`](https://github.com/bonigarcia/c-programming/blob/master/arrays/arrays_5_fixed.c) | Why can't you assign `array_2 = array_1`? (Lecture 3: "Array names are const") |
+| [`arrays/qsort_1.c`](https://github.com/bonigarcia/c-programming/blob/master/arrays/qsort_1.c) | Modify it to sort in **descending** order. (The `compare` function is a *function pointer* — covered in depth in Lab 4.) |
 
-### Thí nghiệm: `sizeof` khi truyền mảng vào hàm
+### Experiment: `sizeof` when passing an array to a function
 
 ```c
 void f(int a[]) {
-    printf("trong hàm: sizeof(a) = %zu\n", sizeof(a));
+    printf("in function: sizeof(a) = %zu\n", sizeof(a));
 }
 int main() {
     int a[10];
-    printf("trong main: sizeof(a) = %zu\n", sizeof(a));
+    printf("in main: sizeof(a) = %zu\n", sizeof(a));
     f(a);
 }
 ```
 
-Hai giá trị có bằng nhau không? Từ đó giải thích vì sao hàm nhận mảng **luôn cần thêm tham số kích thước** `n` (Lecture 3: `get_max_1d_array(int a[], int N)`).
+Are the two values equal? Use this to explain why a function that takes an array **always needs an extra size parameter** `n` (Lecture 3: `get_max_1d_array(int a[], int N)`).
 
-### Mảng 2 chiều
+### 2D arrays
 
-Chạy [`lecture03-array-pointer/arrays/array_2d.c`](../lecture03-array-pointer/arrays/array_2d.c) trong repo môn học. Vẽ ra giấy cách mảng `int a[3][4]` được lưu **liên tiếp** trong bộ nhớ (theo hàng). Vì sao khai báo tham số phải là `int a[][4]` mà không được là `int a[][]`?
+Run [`lecture03-array-pointer/arrays/array_2d.c`](../lecture03-array-pointer/arrays/array_2d.c) from the course repo. On paper, draw how the array `int a[3][4]` is stored **contiguously** in memory (row by row). Why must the parameter be declared as `int a[][4]` and not `int a[][]`?
 
 ---
 
-## Phần 2. Chuỗi (≈ 30 phút)
+## Part 2. Strings (≈ 30 minutes)
 
-| File | Câu hỏi |
+| File | Question |
 |---|---|
-| [`strings/basic_string_1.c`](https://github.com/bonigarcia/c-programming/blob/master/strings/basic_string_1.c), [`_2.c`](https://github.com/bonigarcia/c-programming/blob/master/strings/basic_string_2.c), [`_4.c`](https://github.com/bonigarcia/c-programming/blob/master/strings/basic_string_4.c) | Ba cách khai báo giống nhau ở điểm nào? Xoá `'\0'` trong `_2.c` thì sao? |
-| [`strings/basic_string_3.c`](https://github.com/bonigarcia/c-programming/blob/master/strings/basic_string_3.c) | Thêm `greetings[0] = 'h';`. Chương trình bị gì? So sánh `char s[]` với `char *s` (Lecture 8). |
-| [`strings/error_string.c`](https://github.com/bonigarcia/c-programming/blob/master/strings/error_string.c) | Vì sao lỗi? Sửa bằng `strcpy`. |
-| [`strings/strlen_3.c`](https://github.com/bonigarcia/c-programming/blob/master/strings/strlen_3.c) | `strlen` khác `sizeof` thế nào? |
-| [`strings/strcpy_2.c`](https://github.com/bonigarcia/c-programming/blob/master/strings/strcpy_2.c), [`strcat.c`](https://github.com/bonigarcia/c-programming/blob/master/strings/strcat.c) | Điều gì xảy ra nếu mảng đích quá nhỏ? Vì sao nên dùng `strncpy`/`strncat`/`snprintf`? |
-| [`strings/strcmp_1.c`](https://github.com/bonigarcia/c-programming/blob/master/strings/strcmp_1.c) … [`strcmp_3.c`](https://github.com/bonigarcia/c-programming/blob/master/strings/strcmp_3.c) | Vì sao **không** so sánh chuỗi bằng `str1 == str2`? |
-| [`strings/strtok_1.c`](https://github.com/bonigarcia/c-programming/blob/master/strings/strtok_1.c) | Tách câu `"C,is;fun"` theo cả `,` và `;`. In `str` sau khi tách: điều gì đã xảy ra với chuỗi gốc? |
-| [`strings/memset_1.c`](https://github.com/bonigarcia/c-programming/blob/master/strings/memset_1.c) | `memset` dùng để làm gì? |
+| [`strings/basic_string_1.c`](https://github.com/bonigarcia/c-programming/blob/master/strings/basic_string_1.c), [`_2.c`](https://github.com/bonigarcia/c-programming/blob/master/strings/basic_string_2.c), [`_4.c`](https://github.com/bonigarcia/c-programming/blob/master/strings/basic_string_4.c) | What do the three declarations have in common? What happens if you remove the `'\0'` in `_2.c`? |
+| [`strings/basic_string_3.c`](https://github.com/bonigarcia/c-programming/blob/master/strings/basic_string_3.c) | Add `greetings[0] = 'h';`. What happens to the program? Compare `char s[]` with `char *s` (Lecture 8). |
+| [`strings/error_string.c`](https://github.com/bonigarcia/c-programming/blob/master/strings/error_string.c) | Why is this an error? Fix it with `strcpy`. |
+| [`strings/strlen_3.c`](https://github.com/bonigarcia/c-programming/blob/master/strings/strlen_3.c) | How is `strlen` different from `sizeof`? |
+| [`strings/strcpy_2.c`](https://github.com/bonigarcia/c-programming/blob/master/strings/strcpy_2.c), [`strcat.c`](https://github.com/bonigarcia/c-programming/blob/master/strings/strcat.c) | What happens if the destination array is too small? Why should you prefer `strncpy`/`strncat`/`snprintf`? |
+| [`strings/strcmp_1.c`](https://github.com/bonigarcia/c-programming/blob/master/strings/strcmp_1.c) … [`strcmp_3.c`](https://github.com/bonigarcia/c-programming/blob/master/strings/strcmp_3.c) | Why should you **not** compare strings with `str1 == str2`? |
+| [`strings/strtok_1.c`](https://github.com/bonigarcia/c-programming/blob/master/strings/strtok_1.c) | Split the sentence `"C,is;fun"` on both `,` and `;`. Print `str` after splitting: what happened to the original string? |
+| [`strings/memset_1.c`](https://github.com/bonigarcia/c-programming/blob/master/strings/memset_1.c) | What is `memset` used for? |
 
-**Nhắc lại ASCII (Lecture 2):** `'a' - 'A' == 32`, `'7' - '0' == 7`. Các bài tập chuỗi bên dưới dùng nhiều mẹo này.
+**ASCII reminder (Lecture 2):** `'a' - 'A' == 32`, `'7' - '0' == 7`. The string exercises below use these tricks a lot.
 
 ---
 
-## Phần 3. Gỡ lỗi (≈ 40 phút)
+## Part 3. Debugging (≈ 40 minutes)
 
-### 3.1. `printf` có điều kiện với `#ifdef DEBUG`
+### 3.1. Conditional `printf` with `#ifdef DEBUG`
 
-Ví dụ: [`debug/debug_1.c`](https://github.com/bonigarcia/c-programming/blob/master/debug/debug_1.c), [`debug_2.c`](https://github.com/bonigarcia/c-programming/blob/master/debug/debug_2.c), [`debug_3.c`](https://github.com/bonigarcia/c-programming/blob/master/debug/debug_3.c)
+Examples: [`debug/debug_1.c`](https://github.com/bonigarcia/c-programming/blob/master/debug/debug_1.c), [`debug_2.c`](https://github.com/bonigarcia/c-programming/blob/master/debug/debug_2.c), [`debug_3.c`](https://github.com/bonigarcia/c-programming/blob/master/debug/debug_3.c)
 
 ```bash
 cd ~/prog1/c-programming/debug
-gcc -Wall debug_3.c -o debug_3 && ./debug_3              # bản Release
-gcc -Wall -DDEBUG debug_3.c -o debug_3 && ./debug_3      # bản Debug
-./debug_3 2> /dev/null                                   # bỏ luồng stderr: chỉ còn gì?
+gcc -Wall debug_3.c -o debug_3 && ./debug_3              # Release build
+gcc -Wall -DDEBUG debug_3.c -o debug_3 && ./debug_3      # Debug build
+./debug_3 2> /dev/null                                   # discard stderr: what is left?
 ```
 
-**Câu hỏi:** Cờ `-DDEBUG` làm gì? Vì sao in thông tin debug ra `stderr` thay vì `stdout`?
+**Questions:** What does the `-DDEBUG` flag do? Why print debug information to `stderr` instead of `stdout`?
 
 ### 3.2. gdb
 
-Ví dụ: [`debug/debug_gdb.c`](https://github.com/bonigarcia/c-programming/blob/master/debug/debug_gdb.c) — chương trình có lỗi, chạy thử và tìm xem sai ở đâu.
+Example: [`debug/debug_gdb.c`](https://github.com/bonigarcia/c-programming/blob/master/debug/debug_gdb.c) — a buggy program; run it and find out where it goes wrong.
 
 ```bash
-gcc -Wall -g debug_gdb.c -o debug_gdb    # -g: thêm thông tin debug
+gcc -Wall -g debug_gdb.c -o debug_gdb    # -g: include debug information
 gdb ./debug_gdb
 ```
 
-| Lệnh gdb | Ý nghĩa |
+| gdb command | Meaning |
 |---|---|
-| `break printArray` / `b 5` | Đặt breakpoint tại hàm / dòng 5 |
-| `run` / `r` | Chạy chương trình |
-| `next` / `n` | Chạy dòng tiếp theo (không đi vào hàm) |
-| `step` / `s` | Chạy dòng tiếp theo (đi vào hàm) |
-| `continue` / `c` | Chạy tới breakpoint tiếp theo |
-| `print i` / `p arr[i]` | In giá trị biểu thức |
-| `p *arr@size` | In `size` phần tử của mảng mà `arr` trỏ tới |
-| `display i` | Tự in `i` sau mỗi bước |
-| `info locals` | In các biến cục bộ |
-| `backtrace` / `bt` | Xem chuỗi lời gọi hàm (hữu ích khi bị `Segmentation fault`) |
-| `quit` / `q` | Thoát |
+| `break printArray` / `b 5` | Set a breakpoint at a function / at line 5 |
+| `run` / `r` | Run the program |
+| `next` / `n` | Run the next line (without stepping into functions) |
+| `step` / `s` | Run the next line (stepping into functions) |
+| `continue` / `c` | Run until the next breakpoint |
+| `print i` / `p arr[i]` | Print the value of an expression |
+| `p *arr@size` | Print `size` elements of the array that `arr` points to |
+| `display i` | Automatically print `i` after every step |
+| `info locals` | Print the local variables |
+| `backtrace` / `bt` | Show the chain of function calls (useful after a `Segmentation fault`) |
+| `quit` / `q` | Quit |
 
-Bài làm: đặt breakpoint trong `printArray`, dùng `display i` và `next` cho tới khi thấy lỗi. Sửa lỗi.
+Task: set a breakpoint in `printArray`, use `display i` and `next` until you see the bug. Fix it.
 
 ### 3.3. VS Code
 
-Chép `tasks.json` và `launch.json` từ [`lecture07-review/vscode/`](../lecture07-review/vscode) vào thư mục `.vscode/`. Mở `debug_gdb.c`, đặt breakpoint (click trái số dòng), nhấn **F5**. Dùng:
+Copy `tasks.json` and `launch.json` from [`lecture07-review/vscode/`](../lecture07-review/vscode) into a `.vscode/` folder. Open `debug_gdb.c`, set a breakpoint (click to the left of a line number), and press **F5**. Use:
 
-- Panel **Variables** và **Watch** (thêm biểu thức `arr[i]`, `*arr@5`).
-- Thanh công cụ: Continue (F5), Step Over (F10), Step Into (F11), Step Out (Shift+F11).
-- **Debug Console**: gõ `-exec p i` hoặc biểu thức bất kỳ.
+- The **Variables** and **Watch** panels (add the expressions `arr[i]`, `*arr@5`).
+- The toolbar: Continue (F5), Step Over (F10), Step Into (F11), Step Out (Shift+F11).
+- The **Debug Console**: type `-exec p i` or any expression.
 
-### 3.4. Bài tập debug: `buggy.c`
+### 3.4. Debugging exercise: `buggy.c`
 
-File [`lab02/buggy.c`](lab02/buggy.c) biên dịch được nhưng cho **kết quả sai**. Có **4 lỗi**. Chỉ được dùng gdb hoặc VS Code (không thêm `printf`) để tìm. Với mỗi lỗi, ghi vào phần chú thích đầu file: dòng nào, triệu chứng gì, sửa thế nào.
+The file [`lab02/buggy.c`](lab02/buggy.c) compiles but gives **wrong results**. It has **4 bugs**. You may only use gdb or VS Code (no extra `printf`) to find them. For each bug, write in the comment at the top of the file: which line, what the symptom was, and how you fixed it.
 
 ```bash
 cd ~/prog1/cse-programming1/labs/lab02
 gcc -Wall -g buggy.c -o buggy && ./buggy
 ```
 
-Kết quả đúng mong đợi:
+Expected correct output:
 
 ```
 sum = 151
@@ -139,46 +139,46 @@ reversed: olleh
 
 ---
 
-## Phần 4. Bài tập
+## Part 4. Exercises
 
 ```bash
 cd ~/prog1/cse-programming1/labs/lab02
 gcc -Wall -Wextra -g lab02.c -o lab02 && ./lab02
 ```
 
-**Mảng**
+**Arrays**
 
-| # | Hàm | Mô tả |
+| # | Function | Description |
 |---|---|---|
-| 2.1 | `int array_max(int a[], int n)` | Giá trị lớn nhất |
-| 2.2 | `double array_mean(int a[], int n)` | Trung bình cộng (cẩn thận chia nguyên!) |
-| 2.3 | `void reverse_array(int a[], int n)` | Đảo ngược tại chỗ |
-| 2.4 | `int count_value(int a[], int n, int value)` | Số lần xuất hiện của `value` |
-| 2.5 | `void max_2d(int a[][COLS], int rows, int axis, int out[])` | Max theo trục như numpy (Lecture 3): `axis = 0` theo cột, `axis = 1` theo hàng |
-| 2.6 | `void matmul(...)` | Nhân ma trận `A[2][3] x B[3][2]` (Lecture 3) |
+| 2.1 | `int array_max(int a[], int n)` | Largest value |
+| 2.2 | `double array_mean(int a[], int n)` | Arithmetic mean (watch out for integer division!) |
+| 2.3 | `void reverse_array(int a[], int n)` | Reverse in place |
+| 2.4 | `int count_value(int a[], int n, int value)` | Number of occurrences of `value` |
+| 2.5 | `void max_2d(int a[][COLS], int rows, int axis, int out[])` | Max along an axis, like numpy (Lecture 3): `axis = 0` per column, `axis = 1` per row |
+| 2.6 | `void matmul(...)` | Matrix multiplication `A[2][3] x B[3][2]` (Lecture 3) |
 
-**Chuỗi** (không dùng `<string.h>` cho 2.7)
+**Strings** (do not use `<string.h>` for 2.7)
 
-| # | Hàm | Mô tả |
+| # | Function | Description |
 |---|---|---|
-| 2.7 | `int my_strlen(const char s[])` | Tự cài đặt `strlen` |
-| 2.8 | `void to_upper(char s[])` | Đổi chữ thường thành chữ hoa, giữ nguyên ký tự khác |
-| 2.9 | `int is_palindrome(const char s[])` | Chuỗi đối xứng? (`"racecar"` → 1) |
-| 2.10 | `int count_words(const char s[])` | Đếm số từ, các từ cách nhau bởi một hoặc nhiều dấu cách |
+| 2.7 | `int my_strlen(const char s[])` | Implement `strlen` yourself |
+| 2.8 | `void to_upper(char s[])` | Convert lowercase letters to uppercase, leave other characters unchanged |
+| 2.9 | `int is_palindrome(const char s[])` | Is the string a palindrome? (`"racecar"` → 1) |
+| 2.10 | `int count_words(const char s[])` | Count the words; words are separated by one or more spaces |
 
-### Bài tập về nhà
+### Homework
 
-- **2.11** `int my_atoi(const char s[])`: như `atoi`, hỗ trợ dấu `+`/`-` ở đầu (Lecture 2, bài tập 2).
-- **2.12** Viết chương trình đọc một dòng bằng `fgets`, in ra số lần xuất hiện của mỗi chữ cái `a`–`z` (không phân biệt hoa thường). Gợi ý: mảng `int count[26]`, chỉ số là `c - 'a'`.
-- **2.13** (LeetCode) [1. Two Sum](https://leetcode.com/problems/two-sum/) (chỉ dùng mảng, O(n²) là đủ), [344. Reverse String](https://leetcode.com/problems/reverse-string/), [58. Length of Last Word](https://leetcode.com/problems/length-of-last-word/).
+- **2.11** `int my_atoi(const char s[])`: like `atoi`, supporting a leading `+`/`-` sign (Lecture 2, exercise 2).
+- **2.12** Write a program that reads a line with `fgets` and prints how many times each letter `a`–`z` appears (case-insensitive). Hint: an `int count[26]` array, indexed by `c - 'a'`.
+- **2.13** (LeetCode) [1. Two Sum](https://leetcode.com/problems/two-sum/) (arrays only, O(n²) is fine), [344. Reverse String](https://leetcode.com/problems/reverse-string/), [58. Length of Last Word](https://leetcode.com/problems/length-of-last-word/).
 
-## Nộp bài
+## Submission
 
-- `labs/lab02/lab02.c` (tất cả `PASS`)
-- `labs/lab02/buggy.c` đã sửa, có chú thích 4 lỗi
+- `labs/lab02/lab02.c` (all `PASS`)
+- `labs/lab02/buggy.c`, fixed, with comments describing the 4 bugs
 
-## Tham khảo thêm
+## Further reading
 
-- *Essential C*, mục 3 (Complex data types: arrays), mục 6 (strings)
-- K&R, chương 1.6–1.9, 5.5
+- *Essential C*, section 3 (Complex data types: arrays), section 6 (strings)
+- K&R, sections 1.6–1.9, 5.5
 - GDB cheat sheet: https://darkdust.net/files/GDB%20Cheat%20Sheet.pdf

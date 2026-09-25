@@ -1,116 +1,116 @@
-# Lab 3 — Con trỏ và bộ nhớ động
+# Lab 3 — Pointers and dynamic memory
 
-> **Buổi 3** · Liên quan: Lecture 3 (Pointer, dynamic memory, scope, call by value/reference), Lecture 7 (multi array)
-> **Repo tham khảo:** [bonigarcia/c-programming](https://github.com/bonigarcia/c-programming) — thư mục `pointers`, `dynamic_mem`, `valgrind`
-> **Code khởi đầu:** [`lab03/lab03.c`](lab03/lab03.c), [`lab03/leaky.c`](lab03/leaky.c)
+> **Session 3** · Related: Lecture 3 (Pointer, dynamic memory, scope, call by value/reference), Lecture 7 (multi array)
+> **Reference repo:** [bonigarcia/c-programming](https://github.com/bonigarcia/c-programming) — folders `pointers`, `dynamic_mem`, `valgrind`
+> **Starter code:** [`lab03/lab03.c`](lab03/lab03.c), [`lab03/leaky.c`](lab03/leaky.c)
 
-## Mục tiêu
+## Objectives
 
-- Hiểu con trỏ là biến chứa địa chỉ; dùng thành thạo `&`, `*`, `->`, `NULL`.
-- Quan hệ giữa mảng và con trỏ; phép toán trên con trỏ (`p + 1`, `*(p++)`, `*(++p)`).
-- Truyền tham trị và truyền tham chiếu; trả về nhiều giá trị qua con trỏ.
-- Cấp phát và giải phóng bộ nhớ động: `malloc`, `calloc`, `realloc`, `free`.
-- Nhận biết và sửa các lỗi bộ nhớ: rò rỉ, con trỏ treo, ghi ngoài vùng nhớ, biến chưa khởi tạo — bằng **valgrind**.
+- Understand that a pointer is a variable that holds an address; use `&`, `*`, `->`, and `NULL` confidently.
+- The relationship between arrays and pointers; pointer arithmetic (`p + 1`, `*(p++)`, `*(++p)`).
+- Pass by value vs. pass by reference; return multiple values through pointers.
+- Allocate and free dynamic memory: `malloc`, `calloc`, `realloc`, `free`.
+- Recognize and fix memory errors — leaks, dangling pointers, out-of-bounds writes, uninitialized variables — using **valgrind**.
 
-## Phân bổ thời gian gợi ý (≈ 3 giờ)
+## Suggested timing (≈ 3 hours)
 
-| Thời gian | Nội dung |
+| Time | Content |
 |---|---|
-| 0:00 – 0:35 | Phần 1: con trỏ cơ bản, con trỏ và mảng |
-| 0:35 – 0:50 | Phần 2: truyền tham trị / tham chiếu |
-| 0:50 – 1:20 | Phần 3: bộ nhớ động, phạm vi, con trỏ treo |
-| 1:20 – 1:45 | Phần 4: valgrind, sửa `leaky.c` |
-| 1:45 – 2:50 | Bài tập 3.1 – 3.9 trong `lab03.c` |
-| 2:50 – 3:00 | Chữa bài |
+| 0:00 – 0:35 | Part 1: pointer basics, pointers and arrays |
+| 0:35 – 0:50 | Part 2: pass by value / by reference |
+| 0:50 – 1:20 | Part 3: dynamic memory, scope, dangling pointers |
+| 1:20 – 1:45 | Part 4: valgrind, fix `leaky.c` |
+| 1:45 – 2:50 | Exercises 3.1 – 3.9 in `lab03.c` |
+| 2:50 – 3:00 | Review solutions |
 
-> **Khuyến khích vẽ hình.** Với mỗi ví dụ, vẽ các "ô nhớ" (tên biến, địa chỉ, giá trị) và mũi tên con trỏ. Hầu hết lỗi con trỏ đều lộ ra khi vẽ.
+> **Draw pictures.** For each example, draw the "memory cells" (variable name, address, value) and the pointer arrows. Most pointer bugs become obvious once you draw them.
 
 ---
 
-## Phần 1. Con trỏ cơ bản (≈ 35 phút)
+## Part 1. Pointer basics (≈ 35 minutes)
 
-| File | Câu hỏi |
+| File | Question |
 |---|---|
-| [`pointers/basic_pointer_1.c`](https://github.com/bonigarcia/c-programming/blob/master/pointers/basic_pointer_1.c) | Vẽ hình `age` và `p_age`. `%p` in ra gì? |
-| [`pointers/basic_pointer_2.c`](https://github.com/bonigarcia/c-programming/blob/master/pointers/basic_pointer_2.c) | Vì sao `*p_age` đổi theo khi gán `age = 40`? Thử ngược lại: gán `*p_age = 60` rồi in `age`. |
-| [`pointers/null_pointer_1.c`](https://github.com/bonigarcia/c-programming/blob/master/pointers/null_pointer_1.c) | Thêm `printf("%d", *pointer);`. Chuyện gì xảy ra? (Segmentation fault) |
-| [`pointers/arrays_3.c`](https://github.com/bonigarcia/c-programming/blob/master/pointers/arrays_3.c) | In thêm địa chỉ `a`, `b`, `c`, `d`. Các địa chỉ cách nhau bao nhiêu byte? Vì sao? |
-| [`pointers/arrays_4.c`](https://github.com/bonigarcia/c-programming/blob/master/pointers/arrays_4.c) | Vì sao `s1 != s2`? Mảng và con trỏ khác nhau ở đâu? |
-| [`pointers/arrays_1.c`](https://github.com/bonigarcia/c-programming/blob/master/pointers/arrays_1.c) | Vì sao hàm `double_array` sửa được mảng của `main`? |
-| [`pointers/double_pointer_1.c`](https://github.com/bonigarcia/c-programming/blob/master/pointers/double_pointer_1.c), [`double_pointer_2.c`](https://github.com/bonigarcia/c-programming/blob/master/pointers/double_pointer_2.c) | Vẽ hình `age`, `pointer`, `double_pointer`. `words` là mảng gồm những gì? |
-| [`pointers/args.c`](https://github.com/bonigarcia/c-programming/blob/master/pointers/args.c) | `char *argv[]` là mảng các con trỏ. Chạy `./args mot hai ba`. |
+| [`pointers/basic_pointer_1.c`](https://github.com/bonigarcia/c-programming/blob/master/pointers/basic_pointer_1.c) | Draw `age` and `p_age`. What does `%p` print? |
+| [`pointers/basic_pointer_2.c`](https://github.com/bonigarcia/c-programming/blob/master/pointers/basic_pointer_2.c) | Why does `*p_age` change when you assign `age = 40`? Try the reverse: assign `*p_age = 60`, then print `age`. |
+| [`pointers/null_pointer_1.c`](https://github.com/bonigarcia/c-programming/blob/master/pointers/null_pointer_1.c) | Add `printf("%d", *pointer);`. What happens? (Segmentation fault) |
+| [`pointers/arrays_3.c`](https://github.com/bonigarcia/c-programming/blob/master/pointers/arrays_3.c) | Also print the addresses of `a`, `b`, `c`, `d`. How many bytes apart are they? Why? |
+| [`pointers/arrays_4.c`](https://github.com/bonigarcia/c-programming/blob/master/pointers/arrays_4.c) | Why is `s1 != s2`? How are arrays and pointers different? |
+| [`pointers/arrays_1.c`](https://github.com/bonigarcia/c-programming/blob/master/pointers/arrays_1.c) | Why can the `double_array` function modify `main`'s array? |
+| [`pointers/double_pointer_1.c`](https://github.com/bonigarcia/c-programming/blob/master/pointers/double_pointer_1.c), [`double_pointer_2.c`](https://github.com/bonigarcia/c-programming/blob/master/pointers/double_pointer_2.c) | Draw `age`, `pointer`, `double_pointer`. What does the array `words` contain? |
+| [`pointers/args.c`](https://github.com/bonigarcia/c-programming/blob/master/pointers/args.c) | `char *argv[]` is an array of pointers. Run `./args one two three`. |
 
-### Quiz Lecture 3: `*(++p)` và `*(p++)`
+### Lecture 3 quiz: `*(++p)` vs. `*(p++)`
 
-Chạy [`lecture03-array-pointer/pointers/pointer_arithmetic.c`](../lecture03-array-pointer/pointers/pointer_arithmetic.c) trong repo môn học. Trước khi chạy, dự đoán nội dung mảng sau mỗi lệnh gán. Giải thích vì sao cuối cùng phải `free(base)` chứ không phải `free(p_scores)`.
+Run [`lecture03-array-pointer/pointers/pointer_arithmetic.c`](../lecture03-array-pointer/pointers/pointer_arithmetic.c) from the course repo. Before running it, predict the contents of the array after each assignment. Explain why the program must end with `free(base)` and not `free(p_scores)`.
 
 ---
 
-## Phần 2. Truyền tham trị và tham chiếu (≈ 15 phút)
+## Part 2. Pass by value and by reference (≈ 15 minutes)
 
-| File | Câu hỏi |
+| File | Question |
 |---|---|
-| [`pointers/pass_by_value.c`](https://github.com/bonigarcia/c-programming/blob/master/pointers/pass_by_value.c) | Vì sao giá trị trong `main` không đổi? |
-| [`pointers/pass_by_ref.c`](https://github.com/bonigarcia/c-programming/blob/master/pointers/pass_by_ref.c) | Vẽ hình lúc đang ở trong hàm: tham số trỏ tới đâu? |
-| [`pointers/struct_pointer.c`](https://github.com/bonigarcia/c-programming/blob/master/pointers/struct_pointer.c) | `p->x` tương đương với cách viết nào dùng `*`? |
+| [`pointers/pass_by_value.c`](https://github.com/bonigarcia/c-programming/blob/master/pointers/pass_by_value.c) | Why doesn't the value in `main` change? |
+| [`pointers/pass_by_ref.c`](https://github.com/bonigarcia/c-programming/blob/master/pointers/pass_by_ref.c) | Draw the picture while execution is inside the function: where does the parameter point? |
+| [`pointers/struct_pointer.c`](https://github.com/bonigarcia/c-programming/blob/master/pointers/struct_pointer.c) | What is `p->x` equivalent to when written with `*`? |
 
-**Mẫu hàm kiểu LeetCode** (Lecture 3): hàm trả về một mảng mới **và** kích thước của nó:
+**LeetCode-style function pattern** (Lecture 3): a function that returns a new array **and** its size:
 
 ```c
-int *evenOddBit(int n, int *returnSize);   // kích thước trả về qua *returnSize
+int *evenOddBit(int n, int *returnSize);   // size is returned through *returnSize
 ```
 
-Xem [`lecture03-array-pointer/pointers/even_odd_bit.c`](../lecture03-array-pointer/pointers/even_odd_bit.c). Ai chịu trách nhiệm `free` mảng trả về?
+See [`lecture03-array-pointer/pointers/even_odd_bit.c`](../lecture03-array-pointer/pointers/even_odd_bit.c). Who is responsible for calling `free` on the returned array?
 
 ---
 
-## Phần 3. Bộ nhớ động (≈ 30 phút)
+## Part 3. Dynamic memory (≈ 30 minutes)
 
 ```
- địa chỉ cao  ┌──────────────┐
-              │    stack     │  biến cục bộ, tham số — tự huỷ khi hàm kết thúc
+ high address ┌──────────────┐
+              │    stack     │  local variables, parameters — destroyed when the function returns
               │      ↓       │
               │      ↑       │
-              │     heap     │  malloc/calloc/realloc — tồn tại tới khi free
+              │     heap     │  malloc/calloc/realloc — lives until free
               ├──────────────┤
-              │  data / bss  │  biến toàn cục, biến static
+              │  data / bss  │  global variables, static variables
               ├──────────────┤
-              │ rodata, text │  chuỗi hằng "Hello", mã lệnh
- địa chỉ thấp └──────────────┘
+              │ rodata, text │  string literals "Hello", machine code
+ low address  └──────────────┘
 ```
 
-| File | Câu hỏi |
+| File | Question |
 |---|---|
-| [`dynamic_mem/memory_segments.c`](https://github.com/bonigarcia/c-programming/blob/master/dynamic_mem/memory_segments.c) | Mỗi biến nằm ở vùng nào? Vì sao `msg2[0] = 'h'` được mà `msg1[0] = 'h'` thì không? |
-| [`dynamic_mem/malloc_1.c`](https://github.com/bonigarcia/c-programming/blob/master/dynamic_mem/malloc_1.c), [`malloc_2.c`](https://github.com/bonigarcia/c-programming/blob/master/dynamic_mem/malloc_2.c) | Sửa `FIXME`. Vì sao phải kiểm tra `ptr == NULL`? |
-| [`dynamic_mem/malloc_3.c`](https://github.com/bonigarcia/c-programming/blob/master/dynamic_mem/malloc_3.c) | `*(ptr + i)` và `ptr[i]` có giống nhau không? |
-| [`dynamic_mem/calloc_1.c`](https://github.com/bonigarcia/c-programming/blob/master/dynamic_mem/calloc_1.c) | `calloc` khác `malloc` ở đâu? |
-| [`dynamic_mem/realloc_1.c`](https://github.com/bonigarcia/c-programming/blob/master/dynamic_mem/realloc_1.c) | Địa chỉ trước và sau `realloc` có giống nhau không? Vì sao không được viết `p = realloc(p, ...)` mà không kiểm tra? |
-| [`dynamic_mem/double_pointer.c`](https://github.com/bonigarcia/c-programming/blob/master/dynamic_mem/double_pointer.c) | Vì sao phải `free(words[0])` **trước** `free(words)`? |
+| [`dynamic_mem/memory_segments.c`](https://github.com/bonigarcia/c-programming/blob/master/dynamic_mem/memory_segments.c) | Which segment does each variable live in? Why is `msg2[0] = 'h'` allowed but `msg1[0] = 'h'` is not? |
+| [`dynamic_mem/malloc_1.c`](https://github.com/bonigarcia/c-programming/blob/master/dynamic_mem/malloc_1.c), [`malloc_2.c`](https://github.com/bonigarcia/c-programming/blob/master/dynamic_mem/malloc_2.c) | Fix the `FIXME`. Why must you check `ptr == NULL`? |
+| [`dynamic_mem/malloc_3.c`](https://github.com/bonigarcia/c-programming/blob/master/dynamic_mem/malloc_3.c) | Are `*(ptr + i)` and `ptr[i]` the same? |
+| [`dynamic_mem/calloc_1.c`](https://github.com/bonigarcia/c-programming/blob/master/dynamic_mem/calloc_1.c) | How is `calloc` different from `malloc`? |
+| [`dynamic_mem/realloc_1.c`](https://github.com/bonigarcia/c-programming/blob/master/dynamic_mem/realloc_1.c) | Is the address the same before and after `realloc`? Why shouldn't you write `p = realloc(p, ...)` without checking the result? |
+| [`dynamic_mem/double_pointer.c`](https://github.com/bonigarcia/c-programming/blob/master/dynamic_mem/double_pointer.c) | Why must you call `free(words[0])` **before** `free(words)`? |
 
-### Cấp phát trong một hàm khác — bài toán kinh điển
+### Allocating inside another function — a classic problem
 
-So sánh 4 file, file nào đúng, file nào sai, vì sao:
+Compare these 4 files: which ones are correct, which are wrong, and why?
 
-1. [`out-of-scope-allocation_0.c`](https://github.com/bonigarcia/c-programming/blob/master/dynamic_mem/out-of-scope-allocation_0.c) — cấp phát ngay trong `main`
+1. [`out-of-scope-allocation_0.c`](https://github.com/bonigarcia/c-programming/blob/master/dynamic_mem/out-of-scope-allocation_0.c) — allocates directly in `main`
 2. [`out-of-scope-allocation_1.c`](https://github.com/bonigarcia/c-programming/blob/master/dynamic_mem/out-of-scope-allocation_1.c) — `void allocate(int *ptr)`
 3. [`out-of-scope-allocation_2.c`](https://github.com/bonigarcia/c-programming/blob/master/dynamic_mem/out-of-scope-allocation_2.c) — `void allocate(int **ptr)`
 4. [`out-of-scope-allocation_3.c`](https://github.com/bonigarcia/c-programming/blob/master/dynamic_mem/out-of-scope-allocation_3.c) — `int *allocate()`
 
-> Gợi ý: file 2 mắc đúng lỗi của `swap_by_value` ở Phần 2 — chỉ có điều biến bị "sao chép" lại là một con trỏ.
+> Hint: file 2 makes exactly the same mistake as `swap_by_value` in Part 2 — except that the variable being "copied" is a pointer.
 
-### Con trỏ treo (dangling pointer)
+### Dangling pointers
 
-| File | Câu hỏi |
+| File | Question |
 |---|---|
-| [`dynamic_mem/dangling_pointer_1.c`](https://github.com/bonigarcia/c-programming/blob/master/dynamic_mem/dangling_pointer_1.c) | Dùng con trỏ sau khi `free`. Cách phòng tránh? |
-| [`dynamic_mem/dangling_pointer_2.c`](https://github.com/bonigarcia/c-programming/blob/master/dynamic_mem/dangling_pointer_2.c) | Trả về địa chỉ biến cục bộ. `-Wall` cảnh báo gì? Sửa bằng 2 cách (`static` / `malloc`). |
+| [`dynamic_mem/dangling_pointer_1.c`](https://github.com/bonigarcia/c-programming/blob/master/dynamic_mem/dangling_pointer_1.c) | Using a pointer after `free`. How can you prevent this? |
+| [`dynamic_mem/dangling_pointer_2.c`](https://github.com/bonigarcia/c-programming/blob/master/dynamic_mem/dangling_pointer_2.c) | Returning the address of a local variable. What does `-Wall` warn about? Fix it in 2 ways (`static` / `malloc`). |
 
 ---
 
-## Phần 4. Valgrind (≈ 25 phút)
+## Part 4. Valgrind (≈ 25 minutes)
 
-Valgrind chạy chương trình trong môi trường giám sát và báo mọi truy cập bộ nhớ sai. Luôn biên dịch với `-g` để valgrind chỉ ra **số dòng**.
+Valgrind runs your program in a monitored environment and reports every invalid memory access. Always compile with `-g` so that valgrind can show **line numbers**.
 
 ```bash
 cd ~/prog1/c-programming/valgrind
@@ -118,25 +118,25 @@ gcc -g valgrind_memory_leak.c -o leak
 valgrind --leak-check=full ./leak
 ```
 
-| File | Lỗi | Thông báo valgrind cần tìm |
+| File | Bug | Valgrind message to look for |
 |---|---|---|
-| [`valgrind_memory_leak.c`](https://github.com/bonigarcia/c-programming/blob/master/valgrind/valgrind_memory_leak.c) | Rò rỉ bộ nhớ | `definitely lost: 100 bytes in 1 blocks` |
-| [`valgrind_illegal_write.c`](https://github.com/bonigarcia/c-programming/blob/master/valgrind/valgrind_illegal_write.c) | Ghi vào `NULL` | `Invalid write of size 4` |
-| [`valgrind_illegal_free.c`](https://github.com/bonigarcia/c-programming/blob/master/valgrind/valgrind_illegal_free.c) | `free` sai địa chỉ / 2 lần | `Invalid free()` |
-| [`valgrind_unitialized.c`](https://github.com/bonigarcia/c-programming/blob/master/valgrind/valgrind_unitialized.c) | Đọc biến chưa khởi tạo | `Conditional jump or move depends on uninitialised value(s)` (thêm `--track-origins=yes`) |
+| [`valgrind_memory_leak.c`](https://github.com/bonigarcia/c-programming/blob/master/valgrind/valgrind_memory_leak.c) | Memory leak | `definitely lost: 100 bytes in 1 blocks` |
+| [`valgrind_illegal_write.c`](https://github.com/bonigarcia/c-programming/blob/master/valgrind/valgrind_illegal_write.c) | Writing to `NULL` | `Invalid write of size 4` |
+| [`valgrind_illegal_free.c`](https://github.com/bonigarcia/c-programming/blob/master/valgrind/valgrind_illegal_free.c) | `free` at a wrong address / twice | `Invalid free()` |
+| [`valgrind_unitialized.c`](https://github.com/bonigarcia/c-programming/blob/master/valgrind/valgrind_unitialized.c) | Reading an uninitialized variable | `Conditional jump or move depends on uninitialised value(s)` (add `--track-origins=yes`) |
 
-**Cách đọc báo cáo:** tìm dòng đầu tiên có tên file của bạn trong stack trace (ví dụ `at 0x...: main (leak.c:12)`). Mục tiêu cuối cùng luôn là:
+**How to read the report:** find the first line in the stack trace that contains your file name (for example `at 0x...: main (leak.c:12)`). The final goal is always:
 
 ```
 All heap blocks were freed -- no leaks are possible
 ERROR SUMMARY: 0 errors from 0 contexts
 ```
 
-> macOS chip Apple không chạy được valgrind — dùng Codespaces, hoặc thay bằng `gcc -g -fsanitize=address leaky.c` (AddressSanitizer).
+> Valgrind does not run on Apple-silicon Macs — use the lab Linux server via SSH, or compile with `gcc -g -fsanitize=address leaky.c` (AddressSanitizer) instead.
 
-### Bài tập: `leaky.c`
+### Exercise: `leaky.c`
 
-File [`lab03/leaky.c`](lab03/leaky.c) chạy "có vẻ đúng" nhưng có **4 lỗi bộ nhớ**. Dùng valgrind để tìm và sửa hết, ghi chú lại vào đầu file.
+The file [`lab03/leaky.c`](lab03/leaky.c) "seems to work" but has **4 memory bugs**. Use valgrind to find and fix all of them, and write notes about them at the top of the file.
 
 ```bash
 cd ~/prog1/cse-programming1/labs/lab03
@@ -146,40 +146,40 @@ valgrind --leak-check=full --track-origins=yes ./leaky
 
 ---
 
-## Phần 5. Bài tập
+## Part 5. Exercises
 
 ```bash
 gcc -Wall -Wextra -g lab03.c -o lab03 && ./lab03
-valgrind --leak-check=full ./lab03       # phải sạch: 0 errors, không rò rỉ
+valgrind --leak-check=full ./lab03       # must be clean: 0 errors, no leaks
 ```
 
-**Yêu cầu chung:** tất cả `PASS` **và** valgrind không báo lỗi.
+**General requirement:** everything `PASS` **and** valgrind reports no errors.
 
-| # | Hàm | Mô tả |
+| # | Function | Description |
 |---|---|---|
-| 3.1 | `void swap(int *a, int *b)` | Hoán đổi hai số |
-| 3.2 | `void min_max(const int *a, int n, int *min, int *max)` | Trả về 2 giá trị qua con trỏ |
-| 3.3 | `int sum_pointer(const int *a, int n)` | Tổng mảng, **không được dùng `[]`**, chỉ dùng phép toán con trỏ |
-| 3.4 | `int *copy_array(const int *a, int n)` | Trả về bản sao trên heap |
-| 3.5 | `int *filter_even(const int *a, int n, int *returnSize)` | Mảng mới chỉ gồm số chẵn (kiểu LeetCode) |
-| 3.6 | `char *my_strdup(const char *s)` | Tự cài đặt `strdup` (nhớ chỗ cho `'\0'`!) |
-| 3.7 | `int *push_back(int *arr, int *size, int *capacity, int value)` | Mảng động: khi đầy thì `realloc` gấp đôi |
-| 3.8 | `int **alloc_matrix(int rows, int cols)`, `void free_matrix(int **m, int rows)` | Mảng 2 chiều bằng `int **` (Lecture 7) |
-| 3.9 | `void allocate_int(int **p, int value)` | Cấp phát một `int` trong hàm và "trả" về qua tham số (sửa lỗi `out-of-scope-allocation_1.c`) |
+| 3.1 | `void swap(int *a, int *b)` | Swap two numbers |
+| 3.2 | `void min_max(const int *a, int n, int *min, int *max)` | Return 2 values through pointers |
+| 3.3 | `int sum_pointer(const int *a, int n)` | Sum of an array, **without using `[]`** — pointer arithmetic only |
+| 3.4 | `int *copy_array(const int *a, int n)` | Return a copy on the heap |
+| 3.5 | `int *filter_even(const int *a, int n, int *returnSize)` | New array containing only the even numbers (LeetCode style) |
+| 3.6 | `char *my_strdup(const char *s)` | Implement `strdup` yourself (remember to leave room for `'\0'`!) |
+| 3.7 | `int *push_back(int *arr, int *size, int *capacity, int value)` | Dynamic array: when it is full, `realloc` to double the capacity |
+| 3.8 | `int **alloc_matrix(int rows, int cols)`, `void free_matrix(int **m, int rows)` | 2D array using `int **` (Lecture 7) |
+| 3.9 | `void allocate_int(int **p, int value)` | Allocate an `int` inside a function and "return" it through a parameter (fixes the bug in `out-of-scope-allocation_1.c`) |
 
-### Bài tập về nhà
+### Homework
 
-- **3.10** `char **split(const char *s, char sep, int *count)`: tách chuỗi thành mảng các chuỗi (mỗi chuỗi cấp phát riêng) và hàm `free_split`. Kiểm tra bằng valgrind.
-- **3.11** Cấp phát mảng **n chiều** bằng đệ quy, trả về `void *` (Lecture 7). Tham khảo [`lecture07-review/multi_array/alloc_nd.c`](../lecture07-review/multi_array/alloc_nd.c) rồi tự viết lại hàm giải phóng.
-- **3.12** (LeetCode, chú ý `returnSize`) [1480. Running Sum of 1d Array](https://leetcode.com/problems/running-sum-of-1d-array/), [2595. Number of Even and Odd Bits](https://leetcode.com/problems/number-of-even-and-odd-bits/), [977. Squares of a Sorted Array](https://leetcode.com/problems/squares-of-a-sorted-array/).
+- **3.10** `char **split(const char *s, char sep, int *count)`: split a string into an array of strings (each allocated separately), plus a `free_split` function. Check it with valgrind.
+- **3.11** Allocate an **n-dimensional** array recursively, returning `void *` (Lecture 7). Study [`lecture07-review/multi_array/alloc_nd.c`](../lecture07-review/multi_array/alloc_nd.c), then write the free function yourself.
+- **3.12** (LeetCode, pay attention to `returnSize`) [1480. Running Sum of 1d Array](https://leetcode.com/problems/running-sum-of-1d-array/), [2595. Number of Even and Odd Bits](https://leetcode.com/problems/number-of-even-and-odd-bits/), [977. Squares of a Sorted Array](https://leetcode.com/problems/squares-of-a-sorted-array/).
 
-## Nộp bài
+## Submission
 
-- `labs/lab03/lab03.c`: tất cả `PASS`, valgrind sạch (chụp màn hình phần `HEAP SUMMARY` và `ERROR SUMMARY`)
-- `labs/lab03/leaky.c` đã sửa, có ghi chú 4 lỗi
+- `labs/lab03/lab03.c`: all `PASS`, clean valgrind run (screenshot of the `HEAP SUMMARY` and `ERROR SUMMARY` sections)
+- `labs/lab03/leaky.c`, fixed, with notes on the 4 bugs
 
-## Tham khảo thêm
+## Further reading
 
-- *Essential C*, mục 3 (pointers), mục 6 (heap memory)
+- *Essential C*, section 3 (pointers), section 6 (heap memory)
 - Valgrind Quick Start: https://valgrind.org/docs/manual/quick-start.html
-- Code ví dụ: [`lecture03-array-pointer/pointers/`](../lecture03-array-pointer/pointers), [`lecture03-array-pointer/dynamic_mem/`](../lecture03-array-pointer/dynamic_mem)
+- Example code: [`lecture03-array-pointer/pointers/`](../lecture03-array-pointer/pointers), [`lecture03-array-pointer/dynamic_mem/`](../lecture03-array-pointer/dynamic_mem)
