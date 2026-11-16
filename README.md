@@ -26,7 +26,7 @@ The handouts for the 4 lab sessions (plus the Lab 0 preparation lab) are in [`la
 - [Lab 0 — Environment setup, Linux commands, SSH, Git/GitHub](labs/lab00-setup.md)
 - [Lab 1 — C fundamentals](labs/lab01-basics.md)
 - [Lab 2 — Arrays, strings, and debugging](labs/lab02-arrays-strings-debug.md)
-- [Lab 3 — Pointers and dynamic memory](labs/lab03-pointers-memory.md)
+- [Lab 3 — Pointers, dynamic memory, and input/output](labs/lab03-pointers-memory.md)
 - [Lab 4 — Structs, function pointers, and multi-file programs](labs/lab04-structs-modules.md)
 
 The repo includes a `.devcontainer/` configuration for opening it in GitHub Codespaces (with `gcc`, `gdb`, `make`, and `valgrind` preinstalled).
